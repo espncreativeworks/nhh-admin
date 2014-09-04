@@ -2,6 +2,10 @@
 // customising the .env file in your project's root folder.
 require('dotenv').load();
 
+if (process.env.NODE_ENV === 'production'){
+	require('newrelic');
+}
+
 // Require keystone
 var keystone = require('keystone'),
 	handlebars = require('express3-handlebars');

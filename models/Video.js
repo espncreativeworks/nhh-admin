@@ -28,7 +28,8 @@ Video.add({
   thumbnailUrl: { type: Types.Url }
 }, 'Meta', {
   youtubeUrl: { type: Types.Url },
-  isActive: { type: Boolean, default: true, label: 'Is this video active?' }
+  isActive: { type: Boolean, default: true, label: 'Is this video active?' },
+  isFeatured: { type: Boolean, default: false, label: 'Is this video featured?' }
 });
 
 /**

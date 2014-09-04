@@ -55,6 +55,10 @@ exports = module.exports = function(app) {
 	app.get('/api/athletes/:id', routes.api.athletes.show);
 
 	// tour stops
+	app.get('/api/videos', routes.api.videos.list);
+	app.get('/api/videos/:id', routes.api.videos.show);
+
+	// tour stops
 	app.get('/api/tour-stops', routes.api.tourStops.list);
 	app.get('/api/tour-stops/:id', routes.api.tourStops.show);
 

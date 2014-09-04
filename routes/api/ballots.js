@@ -12,7 +12,7 @@ function listBallots(req, res){
     doc.isActive = true;
   }
 
-  q = Ballot.find(doc).select('-__v');
+  q = Ballot.findOne(doc).select('-__v');
 
   if (req.query.populate && req.query.populate.trim().length > 0){
     refs = req.query.populate.trim().split(',');

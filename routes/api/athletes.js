@@ -35,7 +35,7 @@ function listAthletes(req, res){
 function showAthlete(req, res){
   var doc = { _id: req.params.id }, q, refs, _selects;
 
-  q = Athlete.find(doc).select('-__v');
+  q = Athlete.findOne(doc).select('-__v');
 
   if (req.query.populate && req.query.populate.trim().length > 0){
     refs = req.query.populate.trim().split(',');
