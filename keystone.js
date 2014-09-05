@@ -21,6 +21,8 @@ keystone.init({
 	'name': 'NHH Admin Test',
 	'brand': 'NHH Admin Test',
 
+	'port': process.env.PORT || 9002,
+
 	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',

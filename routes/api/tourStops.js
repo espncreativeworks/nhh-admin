@@ -1,4 +1,5 @@
 var keystone = require('keystone')
+  , ObjectId = keystone.mongoose.Types.ObjectId
   , TourStop = keystone.list('TourStop').model
   , _ = require('underscore');
 
@@ -19,8 +20,13 @@ function listTourStops(req, res){
 }
 
 function showTourStop(req, res){
-  var doc = { _id: req.params.id }
+  var key = req.params.id
+    , doc = { $or: [ { slug: key } ] }
     , q;
+
+  if (key.match(/^[0-9a-fA-F]{24}$/)) {
+    doc.$or.push({ _id: key });
+  }
 
   q = TourStop.findOne(doc).select('-__v');
   q.populate('videos');

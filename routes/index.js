@@ -21,7 +21,24 @@
 var _ = require('underscore'),
 	keystone = require('keystone'),
 	middleware = require('./middleware'),
-	importRoutes = keystone.importer(__dirname);
+	importRoutes = keystone.importer(__dirname),
+	cors = require('cors');
+
+var whitelist = [
+	'http://promo.espn.go.com',
+	'http://preview.espncreativeworks.com',
+	'http://vwtsbar04.corp.espn3.com:3467'
+];
+
+var corsOptionsDelegate = function(req, callback){
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false }; // disable CORS for this request
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
+};
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -36,11 +53,12 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function(app) {
 
-	// Views
-	app.get('/', routes.views.index);
+	if (process.env.NODE_ENV !== 'production'){
+		app.options('*', cors());
+		app.all('*', cors());
+	}
 
 	// API
-
 	// votes
 	app.get('/api/votes', routes.api.votes.list);
 	app.post('/api/votes', routes.api.votes.create);
@@ -73,6 +91,10 @@ exports = module.exports = function(app) {
 	// experiences
 	app.get('/api/experiences', routes.api.experiences.list);
 	app.get('/api/experiences/:id', routes.api.experiences.show);
+
+
+	// Views
+	app.get('/', routes.views.index);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

@@ -26,8 +26,7 @@ Athlete.add({
   isReturning: { type: Boolean, default: false, index: true, label: 'Returning after absence?' },
   introducedOn:  { type: Types.Date, note: 'The date when the player was first included on the Heisman Watch' },
   lastAppearedOn:  { type: Types.Date, note: 'The date when the player was last included on the Heisman Watch' },
-  totalVotes: { type: Types.Number, default: 0, noedit: true },
-  percentage: { type: Types.Number, default: 0, noedit: true }
+  totalVotes: { type: Types.Number, default: 0, noedit: true }
 });
 
 /**

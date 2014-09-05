@@ -12,15 +12,20 @@ function listVotes(req, res){
 }
 
 function createVote(req, res){
-  var voteData = req.body
-    , doc = {
-      ballot: ObjectId(voteData.ballotId),
-      athlete: ObjectId(voteData.athleteId), 
-      medium: voteData.medium
+  var doc = {
+      ballot: ObjectId(req.param('ballotId')),
+      athlete: ObjectId(req.param('athleteId')),
+      medium: req.param('medium')
     };
 
-  console.log(util.inspect(doc));
   Vote.create(doc).then(function (vote){
+    var q = Vote.findOne(vote);
+    q.populate('athlete', '_id name espnId slug');
+    q.populate('ballot');
+    return q.exec();
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (vote){
     res.json(201, vote);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
@@ -28,9 +33,10 @@ function createVote(req, res){
 }
 
 function showVote(req, res){
-  var q = Vote.findOne({ _id: req.params.id }).exec();
+  var q = Vote.findOne({ _id: req.params.id });
 
-  q.then(function (vote){
+  q.populate('athlete', 'name _id espnId').populate('ballot', '_id totalVotes');
+  q.exec().then(function (vote){
     if (vote){
       res.json(200, vote);
     } else {

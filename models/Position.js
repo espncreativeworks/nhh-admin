@@ -16,8 +16,7 @@ Position.add({
   name: { type: Types.Text, initial: true, required: true, index: true },
   abbreviation: { type: Types.Text, initial: true, required: true, index: true }
 }, 'Meta', {
-  totalVotes: { type: Types.Number, default: 0, noedit: true },
-  percentage: { type: Types.Number, default: 0, noedit: true }
+  totalVotes: { type: Types.Number, default: 0, noedit: true }
 });
 
 /**
