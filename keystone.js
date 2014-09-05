@@ -18,8 +18,8 @@ var keystone = require('keystone'),
 
 keystone.init({
 
-	'name': 'NHH Admin Test',
-	'brand': 'NHH Admin Test',
+	'name': 'NHH Admin',
+	'brand': 'NHH Admin',
 
 	'port': process.env.PORT || 9002,
 

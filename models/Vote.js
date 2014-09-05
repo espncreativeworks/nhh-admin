@@ -1,11 +1,7 @@
 var keystone = require('keystone')
-  , _ = require('underscore')
   , Types = keystone.Field.Types
   , Athlete = keystone.list('Athlete')
   , Ballot = keystone.list('Ballot')
-  , Position = keystone.list('Position')
-  , Experience = keystone.list('Experience')
-  , School = keystone.list('School')
   , util = require('util');
 
 /**
