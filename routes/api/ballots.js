@@ -6,15 +6,21 @@ var keystone = require('keystone')
   , Position = keystone.list('Position').model;
 
 function listBallots(req, res){
-  var doc = {}, q, refs, _selects;
+  var doc = {}, q, refs, _selects, multi = true;
 
   if (parseInt(req.query.active || 0, 10) === 1){
     doc.isActive = true;
+    multi = false;
   }
 
-  q = Ballot.findOne(doc).select('-__v');
+  if (multi){
+    q = Ballot.find(doc).select('-__v');
+  } else {
+    q = Ballot.findOne(doc).select('-__v');
+  }
 
-  if (req.query.populate && req.query.populate.trim().length > 0){
+
+  if (req.query.populate && req.query.populate.trim().split(',').length > 0){
     refs = req.query.populate.trim().split(',');
     _selects = {
       'athletes': '-__v '
