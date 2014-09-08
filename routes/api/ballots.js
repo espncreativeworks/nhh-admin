@@ -76,11 +76,7 @@ function showBallot(req, res){
 
   q = Ballot.findOne(doc).select('-__v');
 
-<<<<<<< HEAD
   if ('populate' in req.query && req.query.populate.trim().length > 0){
-=======
-  if (req.query.populate && req.query.populate.trim().length > 0){
->>>>>>> 514662b65488b6e8e884c89dc1bed8e920f474fd
     refs = req.query.populate.trim().split(',');
     _selects = {
       'athletes': '-__v '
