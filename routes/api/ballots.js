@@ -33,7 +33,7 @@ function listBallots(req, res){
   }
 
   q.exec().then(function(ballots){
-    if (refs.length){
+    if (refs && refs.length){
       var opts = []
         , paths = ['school', 'experience', 'position']
         , selects = {
@@ -57,7 +57,7 @@ function listBallots(req, res){
 
       return Athlete.populate(ballots, opts);
     } else {
-      res.json(200, ballots);
+      return ballots;
     }
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
@@ -90,7 +90,7 @@ function showBallot(req, res){
   }
 
   q.exec().then(function (ballot){
-    if (refs.length){
+    if (refs && refs.length){
       var opts = []
         , paths = ['school', 'experience', 'position']
         , selects = {
