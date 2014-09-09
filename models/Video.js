@@ -25,9 +25,13 @@ Video.add({
     { value: 'Teasers', label: 'Teasers' },
     { value: 'Heisman House Tour', label: 'Heisman House Tour' }
   ] },
-  thumbnailUrl: { type: Types.Url }
+  thumbnailUrl: { type: Types.Url, noedit: true, watch: 'youtubeId', value: function (){
+    return 'https://i.ytimg.com/vi/' + this.youtubeId + '/hqdefault.jpg';
+  } }
 }, 'Meta', {
-  youtubeUrl: { type: Types.Url },
+  youtubeUrl: { type: Types.Url, noedit: true, watch: 'youtubeId', value: function (){
+    return 'http://youtu.be/' + this.youtubeId;
+  } },
   isActive: { type: Boolean, default: true, label: 'Is this video active?' },
   isFeatured: { type: Boolean, default: false, label: 'Is this video featured?' }
 });
