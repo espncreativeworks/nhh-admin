@@ -19,9 +19,12 @@ function createVote(req, res){
       athlete: ObjectId(req.param('athleteId')),
       medium: req.param('medium')
     };
+  //console.log(doc);
+
   var _medium = parseInt(doc.medium, 10)
     , validMediumCodes = [1, 2, 3, 4]
-    , isValidMedium = true;
+    , isValidMedium = true
+    , err;
 
   // check for existence of submitted medium in valid mediums
   if (_.indexOf(validMediumCodes, _medium) === -1){
@@ -30,52 +33,72 @@ function createVote(req, res){
 
   // return early is medium is not valid
   if (!isValidMedium){
-    return res.json(404, { name: 'Invalid Medium', message: 'Medium ' + doc.medium + ' is not a valid medium code.' });
+    err = new Error('Invalid Medium');
+    err.message = 'Medium ' + doc.medium + ' is not a valid medium code.';
+    throw err;
   }
 
   Ballot.findOne({ _id: doc.ballot }).exec().then(function (ballot){
-    var isValidAthlete = true;
+    //console.log(ballot);
+    var isValidAthlete = false;
 
     // check for existence of submitted athleteId in ballot.athletes
-    if (_.indexOf(ballot.athletes, doc.athlete) === -1){
-      isValidAthlete = false;
-    }
+    //console.log(ballot.athletes[0].toString());
+    ballot.athletes.forEach(function (_athleteId){
+      if (_athleteId.toString() === doc.athlete.toString()){
+        isValidAthlete = true;
+      }
+    });
+
+    // if (_.indexOf(ballot.athletes, doc.athlete) === -1){
+    //   isValidAthlete = false;
+    // }
 
     // return early if ballot is inactive
     if (!ballot.isActive){
-      return res.json(404, { name: 'Invalid Ballot', message: 'Ballot ' + doc.ballot + ' is inactive' });
+      err = new Error('Invalid Ballot');
+      err.message = 'Ballot ' + doc.ballot + ' is inactive';
+      throw err;
     }
 
     // return early is athlete is not part of the ballot
     if (!isValidAthlete){
-      return res.json(404, { name: 'Invalid Athlete', message: 'Athlete ' + doc.athlete + ' is not a member of this ballot.' });
+      err = new Error('Invalid Athlete');
+      err.message = 'Athlete ' + doc.athlete + ' is not a member of this ballot.';
+      throw err;
     }
 
     return Athlete.findOne({ _id: doc.athlete }).exec();
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (athlete){
+    var err;
+    //console.log(athlete);
 
     // return early if is not active
     if (!athlete.isActive) {
-      return res.json(404, { name: 'Invalid Athlete', message: 'Athlete ' + doc.athlete + ' is inactive.' });
+      err = new Error('Invalid Athlete');
+      err.message = 'Athlete ' + doc.athlete + ' is inactive.';
+      throw err;
     }
 
-    return Vote.create(doc).exec();
+    return Vote.create(doc);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
+    //console.log(vote);
     var q = Vote.findOne(vote);
-    q.populate('athlete', '_id name espnId slug');
-    q.populate('ballot');
+    q.populate('athlete', '_id name espnId slug totalVotes');
+    q.populate('ballot', '_id totalVotes');
     return q.exec();
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
+    //console.log(vote);
     res.json(201, vote);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
-  });
+  }).end();
 }
 
 function showVote(req, res){
