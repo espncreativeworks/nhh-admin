@@ -7,12 +7,12 @@ function listTourStops(req, res){
   var doc = {}
     , q;
 
-  q = TourStop.find(doc).select('-__v');
+  q = TourStop.find(doc).select('-__v').sort('stopNumber');
   q.populate('videos');
   q.populate('schools');
 
   q.exec().then(function(stops){
-    console.log('[thumbnailImage] ' + stops[0].thumbnailImage);
+    //console.log('[thumbnailImage] ' + stops[0].thumbnailImage);
     res.json(200, stops);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
