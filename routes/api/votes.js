@@ -3,14 +3,72 @@ var keystone = require('keystone')
   , Ballot = keystone.list('Ballot').model
   , Athlete = keystone.list('Athlete').model
   , Vote = keystone.list('Vote').model
+  , School = keystone.list('School').model
+  , Experience = keystone.list('Experience').model
+  , Position = keystone.list('Position').model
   , _ = require('underscore');
 
 function listVotes(req, res){
-  Vote.find().exec().then(function(votes){
-    res.json(votes);
+  var doc = {}, q, refs, _selects;
+
+  if ('ballotId' in req.query){
+    doc.ballot = ObjectId(req.query.ballotId);
+  }
+
+  if ('medium' in req.query){
+    doc.medium = parseInt(req.query.medium, 10);
+  }
+
+  q = Vote.find(doc).select('-__v');
+
+  if ('populate' in req.query && req.query.populate.trim().split(',').length > 0){
+    refs = req.query.populate.trim().split(',');
+    _selects = {
+      'athlete': '-__v',
+      'ballot': '-__v'
+    };
+    refs.forEach(function(ref){
+      q.populate({
+        path: ref,
+        select: _selects[ref]
+      });
+    });
+  }
+
+  q.exec().then(function(votes){
+    if (refs && refs.length){
+      var opts = []
+        , paths = ['school', 'experience', 'position']
+        , selects = {
+          school: '-_id -__v -totalVotes',
+          experience: '-_id -__v -totalVotes',
+          position: '-_id -__v -totalVotes'
+        }
+        , models = {
+          school: School,
+          experience: Experience,
+          position: Position
+        };
+
+      paths.forEach(function (_path){
+        opts.push({
+          path: 'athlete.' + _path,
+          model: models[_path],
+          select: selects[_path]
+        });
+      });
+
+      return Athlete.populate(votes, opts);
+    } else {
+      return votes;
+    }
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
-  });
+  }).then(function (votes){
+    res.json(200, votes);
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  }).end();
 }
 
 function createVote(req, res){
