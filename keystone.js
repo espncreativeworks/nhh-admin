@@ -65,10 +65,9 @@ keystone.set('locals', {
 // Cloudinary Config
 keystone.set('cloudinary config', process.env.CLOUDINARY_URL);
 keystone.set('cloudinary prefix', 'nhh');
-keystone.set('cloudinary folders', process.env.EMBEDLY_API_KEY);
 
 // Embed.ly Config
-keystone.set('embedly api key', 'your-key');
+keystone.set('embedly api key', process.env.EMBEDLY_API_KEY);
 
 // Google Maps Config
 keystone.set('google api key', process.env.GOOGLE_BROWSER_KEY);

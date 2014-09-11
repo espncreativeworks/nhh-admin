@@ -33,7 +33,8 @@ Video.add({
     return 'http://youtu.be/' + this.youtubeId;
   } },
   isActive: { type: Boolean, default: true, label: 'Is this video active?' },
-  isFeatured: { type: Boolean, default: false, label: 'Is this video featured?' }
+  isFeatured: { type: Boolean, default: false, label: 'Is this video featured?' },
+  meta: { type: Types.Embedly, from: 'youtubeUrl', label: 'Details', note: 'Extracted using Embed.ly' }
 });
 
 /**

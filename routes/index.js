@@ -92,6 +92,9 @@ exports = module.exports = function(app) {
 	app.get('/api/experiences', routes.api.experiences.list);
 	app.get('/api/experiences/:id', routes.api.experiences.show);
 
+	// links
+	app.post('/api/links/shorten', routes.api.links.shorten);
+
 
 	// Views
 	app.get('/', routes.views.index);

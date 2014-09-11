@@ -12,6 +12,7 @@
     "keystone": "~0.2.27",
     "moment": "~2.8.1",
     "newrelic": "^1.10.3",
+    "node-bitlyapi": "^0.4.0",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
