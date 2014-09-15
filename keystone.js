@@ -85,9 +85,9 @@ keystone.set('routes', require('./routes'));
 
 keystone.set('nav', {
 	'users': 'users',
-	'resources': ['athletes', 'schools', 'positions', 'experiences'],
+	'resources': ['athletes', 'schools', 'positions', 'experiences', 'people', 'timezones'],
 	'polls': ['ballots', 'votes'],
-	'tour': ['tour-stops', 'videos', 'schools'],
+	'tour': ['tour-stops'],
 	'video': ['videos']
 });
 
