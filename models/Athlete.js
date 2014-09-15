@@ -10,6 +10,7 @@ var Athlete = new keystone.List('Athlete', {
   autokey: { path: 'slug', from: 'name', unique: true },
   defaultSort: 'name',
   drilldown: 'school position experience',
+  defaultColumns: 'isActive name totalVotes',
   track: true
 });
 

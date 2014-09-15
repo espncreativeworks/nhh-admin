@@ -7,9 +7,9 @@ function listTourStops(req, res){
   var doc = {}
     , q;
 
-  q = TourStop.find(doc).select('-__v').sort('stopNumber');
-  q.populate('videos');
-  q.populate('schools');
+  q = TourStop.find(doc).sort('stopNumber');
+  q.populate('timezone');
+  q.select('-__v');
 
   q.exec().then(function(stops){
     //console.log('[thumbnailImage] ' + stops[0].thumbnailImage);
@@ -28,9 +28,13 @@ function showTourStop(req, res){
     doc.$or.push({ _id: key });
   }
 
-  q = TourStop.findOne(doc).select('-__v');
+  q = TourStop.findOne(doc);
   q.populate('videos');
   q.populate('schools');
+  q.populate('timezone');
+  q.populate('hosts');
+  q.populate('guests');
+  q.select('-__v');
 
   q.exec().then(function (stop){
     res.json(200, stop);

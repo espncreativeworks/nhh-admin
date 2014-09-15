@@ -95,6 +95,10 @@ exports = module.exports = function(app) {
 	// links
 	app.post('/api/links/shorten', routes.api.links.shorten);
 
+	// timezones
+	app.post('/api/timezones', routes.api.timezones.list);
+	app.post('/api/timezones/:id', routes.api.timezones.show);
+
 
 	// Views
 	app.get('/', routes.views.index);

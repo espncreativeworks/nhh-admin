@@ -26,6 +26,8 @@ School.add({
  * Relationships
  */
 School.relationship({ path: 'athletes', ref: 'Athlete', refPath: 'school' });
+School.relationship({ path: 'people', ref: 'Person', refPath: 'schools' });
+School.relationship({ path: 'tourStops', ref: 'TourStop', refPath: 'schools' });
 
 /**
  * Registration

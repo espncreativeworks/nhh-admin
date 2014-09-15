@@ -1,8 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , Athlete = keystone.list('Athlete')
-  , Ballot = keystone.list('Ballot')
-  , util = require('util');
+  , Ballot = keystone.list('Ballot');
+  //, util = require('util');
 
 /**
  * Vote Model
@@ -35,8 +35,8 @@ Vote.add({
 
 // Update Meta fields
 Vote.schema.post('save', function (next){
-  console.info('[Vote.post(\'save\')] Start!');
-  console.log(util.inspect(this));
+  //console.info('[Vote.post(\'save\')] Start!');
+  //console.log(util.inspect(this));
 
   var athleteId = this.athlete
     , ballotId = this.ballot
@@ -49,15 +49,15 @@ Vote.schema.post('save', function (next){
   athleteUpdateQ = Athlete.model.findOneAndUpdate({ _id: athleteId }, update, options);
 
   ballotUpdateQ.then(function (ballot){
-    console.log(ballot);
+    //console.log(ballot);
     return athleteUpdateQ.exec(); // increment athlete totalVotes
   }, function (err){
     console.error('[Vote.post(\'save\')] Error from ballot update...');
     console.error(err);
     next(err);
   }).then(function (athlete){
-    console.log(athlete);
-    console.info('[Vote.post(\'save\')] Complete!');
+    //console.log(athlete);
+    //console.info('[Vote.post(\'save\')] Complete!');
     next();
   }, function (err){
     console.error('[Vote.post(\'save\')] Error from update athlete...');

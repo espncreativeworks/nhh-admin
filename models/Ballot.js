@@ -9,7 +9,8 @@ var keystone = require('keystone'),
 var Ballot = new keystone.List('Ballot', {
   autokey: { path: 'slug', from: 'title', unique: true },
   defaultSort: '-startedAt',
-  drilldown: 'athletes',
+  map: { name: 'title' },
+  defaultColumns: 'title isActive totalVotes',
   track: true
 });
 

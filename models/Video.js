@@ -25,6 +25,7 @@ Video.add({
     { value: 'Teasers', label: 'Teasers' },
     { value: 'Heisman House Tour', label: 'Heisman House Tour' }
   ] },
+  people: { type: Types.Relationship, ref: 'Person', many: true },
   thumbnailUrl: { type: Types.Url, noedit: true, watch: 'youtubeId', value: function (){
     return 'https://i.ytimg.com/vi/' + this.youtubeId + '/hqdefault.jpg';
   } }
