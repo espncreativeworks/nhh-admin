@@ -96,8 +96,28 @@ exports = module.exports = function(app) {
 	app.post('/api/links/shorten', routes.api.links.shorten);
 
 	// timezones
-	app.post('/api/timezones', routes.api.timezones.list);
-	app.post('/api/timezones/:id', routes.api.timezones.show);
+	app.get('/api/timezones', routes.api.timezones.list);
+	app.get('/api/timezones/:id', routes.api.timezones.show);
+
+	// people
+	app.get('/api/people', routes.api.people.list);
+	app.get('/api/people/:id', routes.api.people.show);
+
+	// ip addresses
+	app.get('/api/ip-addresses', routes.api.ipAddresses.list);
+	app.get('/api/ip-addresses/:id', routes.api.ipAddresses.show);
+
+	// user agents
+	app.get('/api/user-agents', routes.api.userAgents.list);
+	app.get('/api/user-agents/:id', routes.api.userAgents.show);
+
+	// operating systems
+	app.get('/api/operating-systems', routes.api.operatingSystems.list);
+	app.get('/api/operating-systems/:id', routes.api.operatingSystems.show);
+
+	// devices
+	app.get('/api/devices', routes.api.devices.list);
+	app.get('/api/devices/:id', routes.api.devices.show);
 
 
 	// Views

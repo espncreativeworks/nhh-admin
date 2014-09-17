@@ -7,8 +7,8 @@ function listTimezones(req, res){
 
   q = Timezone.find(doc).select('-__v');
 
-  q.exec().then(function(Timezones){
-    res.json(200, Timezones);
+  q.exec().then(function(imezones){
+    res.json(200, timezones);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   });
@@ -20,8 +20,8 @@ function showTimezone(req, res){
 
   q = Timezone.findOne(doc).select('-__v');
 
-  q.exec().then(function (Timezone){
-    res.json(200, Timezone);
+  q.exec().then(function (timezone){
+    res.json(200, timezone);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   });

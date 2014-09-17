@@ -6,7 +6,16 @@ var keystone = require('keystone')
   , School = keystone.list('School').model
   , Experience = keystone.list('Experience').model
   , Position = keystone.list('Position').model
+  , IpAddress = keystone.list('IpAddress').model
+  , UserAgent = keystone.list('UserAgent').model
+  , OperatingSystem = keystone.list('OperatingSystem').model
+  , Device = keystone.list('Device').model
+  , Q = require('q')
+  , request = require('request')
+  , useragent = require('useragent')
   , _ = require('underscore');
+
+useragent(true);
 
 function listVotes(req, res){
   var doc = {}, q, refs, _selects;
@@ -25,7 +34,11 @@ function listVotes(req, res){
     refs = req.query.populate.trim().split(',');
     _selects = {
       'athlete': '-__v',
-      'ballot': '-__v'
+      'ballot': '-__v',
+      'ipAddress': '-__v',
+      'userAgent': '-__v',
+      'os': '-__v',
+      'device': '-__v'
     };
     refs.forEach(function(ref){
       q.populate({
@@ -75,7 +88,11 @@ function createVote(req, res){
   var doc = {
       ballot: ObjectId(req.param('ballotId')),
       athlete: ObjectId(req.param('athleteId')),
-      medium: req.param('medium')
+      medium: req.param('medium'),
+      ipAddress: req.param('ipAddress') || req.ip || req.ips[0] || null,
+      userAgent: req.param('userAgent') || req.get('User-Agent') || null,
+      operatingSystem: null,
+      device: null
     };
   //console.log(doc);
 
@@ -108,10 +125,6 @@ function createVote(req, res){
       }
     });
 
-    // if (_.indexOf(ballot.athletes, doc.athlete) === -1){
-    //   isValidAthlete = false;
-    // }
-
     // return early if ballot is inactive
     if (!ballot.isActive){
       err = new Error('Invalid Ballot');
@@ -139,9 +152,124 @@ function createVote(req, res){
       err.message = 'Athlete ' + doc.athlete + ' is inactive.';
       throw err;
     }
+    return IpAddress.findOne({ address: doc.ipAddress }).exec();
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (ipAddress){
+    var deferred = Q.defer();
+    if (!ipAddress){
+      getIpGeolocation(doc.ipAddress).then(function (_ip){
+        var _doc = {
+          address: _ip.ip,
+          location: {
+            suburb: _ip.city,
+            state: _ip.region_code,
+            postcode: _ip.zipcode,
+            country: _ip.country_name,
+            geo: [ _ip.longitude, _ip.latitude ]
+          }
+        };
+        return IpAddress.create(_doc);
+      }, function (err){
+        deferred.reject(err);
+      }).then(function (ipAddress){
+        doc.ipAddress = ipAddress._id;
+        return deferred.resolve(doc);
+      }, function (err){
+        deferred.reject(err);
+      });
+    } else {
+      doc.ipAddress = ipAddress._id;
+      return deferred.resolve(doc);
+    }
+    return deferred.promise;
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (doc){
+    var deferred = Q.defer()
+      , _uaDeferred = Q.defer()
+      , _osDeferred = Q.defer()
+      , _deviceDeferred = Q.defer()
+      , agent = useragent.lookup(doc.userAgent)
+      , _userAgent = _.extend({}, agent)
+      , _operatingSystem = _.extend({}, agent.os)
+      , _device = _.extend({}, agent.device);
 
+    UserAgent.findOne(_userAgent).exec().then(function (ua){
+      if (!ua){
+        UserAgent.create(_userAgent).then(function (userAgent){
+          doc.userAgent = userAgent._id;
+          _uaDeferred.resolve(doc);
+        }, function (err){
+          console.log('Error creating userAgent...');
+          _uaDeferred.reject(err);
+        });
+      } else {
+        doc.userAgent = ua._id;
+        _uaDeferred.resolve(doc);
+      }
+      return _uaDeferred.promise;
+    }, function (err){
+      console.log('Error finding userAgent...');
+      deferred.reject(err);
+    }).then(function(doc){
+      OperatingSystem.findOne(_operatingSystem).exec().then(function (os){
+        if (!os){
+          OperatingSystem.create(_operatingSystem).then(function (operatingSystem){
+            doc.operatingSystem = operatingSystem._id;
+            _osDeferred.resolve(doc);
+          }, function (err){
+            console.log('Error creating operating system...');
+            _osDeferred.reject(err);
+          });
+        } else {
+          doc.operatingSystem = os._id;
+          _osDeferred.resolve(doc);
+        }
+      }, function (err){
+        console.log('Error finding operating system...');
+        _osDeferred.reject(err);
+      });
+      return _osDeferred.promise;
+    }, function (err){
+      deferred.reject(err);
+    }).then(function (doc){
+      Device.findOne(_device).exec().then(function (__device){
+        if (!__device){
+          Device.create(_device).then(function (device){
+            doc.device = device._id;
+            _deviceDeferred.resolve(doc);
+          }, function (err){
+            console.log('Error creating device...');
+            _deviceDeferred.reject(err);
+          });
+        } else {
+          doc.device = __device._id;
+          _deviceDeferred.resolve(doc);
+        }
+      }, function (err){
+        console.log('Error finding device...');
+        _deviceDeferred.reject(err);
+      });
+      return _deviceDeferred.promise;
+    }, function (err){
+      deferred.reject(err);
+    }).then(function (doc){
+      deferred.resolve(doc);
+    }, function (err){
+      deferred.reject(err);
+    });
+
+    return deferred.promise;
+
+  }, function (err){
+    console.log('Error finding or creating ipAddress...');
+    console.error(err);
+  }).then(function (doc){
     return Vote.create(doc);
   }, function (err){
+    console.log('Error finding or creating userAgent, operatingSystem or device...');
+    console.error(err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
     //console.log(vote);
@@ -162,7 +290,13 @@ function createVote(req, res){
 function showVote(req, res){
   var q = Vote.findOne({ _id: req.params.id });
 
-  q.populate('athlete', 'name _id espnId').populate('ballot', '_id totalVotes');
+  q.populate('athlete', 'name _id espnId');
+  q.populate('ballot', '_id totalVotes');
+  q.populate('ipAddress', 'address location');
+  q.populate('userAgent', 'family major minor patch');
+  q.populate('operatingSystem', 'family major minor patch');
+  q.populate('device', 'family major minor patch');
+
   q.exec().then(function (vote){
     if (vote){
       res.json(200, vote);
@@ -172,6 +306,25 @@ function showVote(req, res){
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   });
+}
+
+function getIpGeolocation(ip){
+  var deferred = Q.defer()
+    , baseUrl = 'https://freegeoip.net/json/'
+    , _url = baseUrl + ip
+    , opts = {
+      method: 'GET',
+      url: _url
+    };
+
+  request(opts, function (err, response, body){
+    if (err){
+      return deferred.reject(err);
+    }
+    return deferred.resolve(JSON.parse(body));
+  });
+
+  return deferred.promise;
 }
 
 exports = module.exports = {

@@ -13,7 +13,10 @@
     "moment": "~2.8.1",
     "newrelic": "^1.10.3",
     "node-bitlyapi": "^0.4.0",
-    "underscore": "^1.7.0"
+    "q": "^1.0.1",
+    "request": "^2.42.0",
+    "underscore": "^1.7.0",
+    "yamlparser": "0.0.2"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
