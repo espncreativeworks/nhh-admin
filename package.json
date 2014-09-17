@@ -16,6 +16,7 @@
     "q": "^1.0.1",
     "request": "^2.42.0",
     "underscore": "^1.7.0",
+    "useragent": "^2.0.9",
     "yamlparser": "0.0.2"
   },
   "devDependencies": {
