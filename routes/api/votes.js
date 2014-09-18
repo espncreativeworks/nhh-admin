@@ -179,7 +179,7 @@ function createVote(req, res){
       }, function (err){
         console.error('Error from IpAddress.create() ...');
         deferred.reject(err);
-      }).end();
+      });
     } else {
       doc.ipAddress = ipAddress._id;
       return deferred.resolve(doc);
@@ -297,7 +297,7 @@ function createVote(req, res){
     res.json(201, vote);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
-  }).end();
+  });
 }
 
 function showVote(req, res){
