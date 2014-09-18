@@ -171,19 +171,22 @@ function createVote(req, res){
         };
         return IpAddress.create(_doc);
       }, function (err){
+        console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
       }).then(function (ipAddress){
         doc.ipAddress = ipAddress._id;
         return deferred.resolve(doc);
       }, function (err){
+        console.error('Error from IpAddress.create() ...');
         deferred.reject(err);
-      });
+      }).end();
     } else {
       doc.ipAddress = ipAddress._id;
       return deferred.resolve(doc);
     }
     return deferred.promise;
   }, function (err){
+    console.error('Error from IpAddress.findOne() ...');
     res.json(500, { name: err.name, message: err.message });
   }).then(function (doc){
     var deferred = Q.defer()
@@ -220,6 +223,7 @@ function createVote(req, res){
             _osDeferred.resolve(doc);
           }, function (err){
             console.log('Error creating operating system...');
+            console.error(err);
             _osDeferred.reject(err);
           });
         } else {
@@ -228,10 +232,13 @@ function createVote(req, res){
         }
       }, function (err){
         console.log('Error finding operating system...');
+        console.error(err);
         _osDeferred.reject(err);
       });
       return _osDeferred.promise;
     }, function (err){
+      console.log('Error creating userAgent');
+      console.error(err);
       deferred.reject(err);
     }).then(function (doc){
       Device.findOne(_device).exec().then(function (__device){
@@ -241,6 +248,7 @@ function createVote(req, res){
             _deviceDeferred.resolve(doc);
           }, function (err){
             console.log('Error creating device...');
+            console.error(err);
             _deviceDeferred.reject(err);
           });
         } else {
@@ -249,14 +257,19 @@ function createVote(req, res){
         }
       }, function (err){
         console.log('Error finding device...');
+        console.error(err);
         _deviceDeferred.reject(err);
       });
       return _deviceDeferred.promise;
     }, function (err){
+      console.log('Error creating operating system...');
+      console.error(err);
       deferred.reject(err);
     }).then(function (doc){
       deferred.resolve(doc);
     }, function (err){
+      console.log('Error creating device...');
+      console.error(err);
       deferred.reject(err);
     });
 
