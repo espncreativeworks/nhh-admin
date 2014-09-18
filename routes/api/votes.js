@@ -175,14 +175,14 @@ function createVote(req, res){
         deferred.reject(err);
       }).then(function (ipAddress){
         doc.ipAddress = ipAddress._id;
-        return deferred.resolve(doc);
+        deferred.resolve(doc);
       }, function (err){
         console.error('Error from IpAddress.create() ...');
         deferred.reject(err);
       });
     } else {
       doc.ipAddress = ipAddress._id;
-      return deferred.resolve(doc);
+      deferred.resolve(doc);
     }
     return deferred.promise;
   }, function (err){
