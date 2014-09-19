@@ -38,7 +38,8 @@ TourStop.add({
 }, 'Meta (Used for SEO-only)', {
   pageTitle: { type: Types.Text, label: 'Page Title' },
   pageDescription: { type: Types.Textarea, label: 'Page Description' },
-  pageKeywords: { type: Types.Text, label: 'Page Keywords' }
+  pageKeywords: { type: Types.Text, label: 'Page Keywords' },
+  venueUrl: { type: Types.Url, note: 'e.g., Wikipedia URL of venue, if available' }
 });
 
 /**
