@@ -19,7 +19,8 @@ School.add({
   primaryColor: { type: Types.Color, initial: true, required: true },
   secondaryColor: { type: Types.Color }
 }, 'Meta', {
-  totalVotes: { type: Types.Number, default: 0, noedit: true }
+  totalVotes: { type: Types.Number, default: 0, noedit: true },
+  url: { type: Types.Url, note: 'e.g., Wikipedia URL, if available' }
 });
 
 /**
