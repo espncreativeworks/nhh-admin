@@ -7,16 +7,16 @@ var keystone = require('keystone'),
  */
 
 var Video = new keystone.List('Video', {
-  autokey: { path: 'slug', from: 'title', unique: true },
+  autokey: { path: 'slug', from: 'youtubeId', unique: true },
+  map: { name: 'title' },
   defaultSort: 'name',
   track: true
 });
 
 Video.add({
   title: { type: Types.Text, initial: true, required: true, index: true },
-  name: { type: Types.Text, initial: true, required: true, index: true },
   youtubeId: { type: Types.Text, initial: true, required: true, index: true, label: 'YouTube Video ID' },
-  description: { type: Types.Text },
+  description: { type: Types.Text, note: 'Overrides description from YouTube' },
   category: { type: Types.Select, options: [
     { value: 'Game Openers', label: 'Game Openers' },
     { value: 'Heisman Highlights', label: 'Heisman Highlights' },
