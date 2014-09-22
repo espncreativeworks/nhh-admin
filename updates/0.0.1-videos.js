@@ -5,109 +5,151 @@
 
 exports.create = {
   Video: [{
-    "name": "Roommates",
+    "title": "Roommates",
     "category": "Game Openers",
     "description": "Roger Staubach and Johnny Manziel share more than a room.",
-    "youtubeId": "GgLdVLw9Fns"
+    "youtubeId": "GgLdVLw9Fns",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Backyard Football",
+    "title": "Backyard Football",
     "category": "Game Openers",
     "description": "The guys play a casual game of touch football.",
-    "youtubeId": "z1f2U2HpGDQ"
+    "youtubeId": "z1f2U2HpGDQ",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Mini Johnny",
+    "title": "Mini Johnny",
     "category": "Game Openers",
     "description": "Batteries not included or necessary.",
-    "youtubeId": "3Dl7G2rKY1Y"
+    "youtubeId": "3Dl7G2rKY1Y",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Trademarked",
+    "title": "Trademarked",
     "category": "Game Openers",
     "description": "RG3 has trademarked a lot of phrases.",
-    "youtubeId": "lJB82VoSc1g"
+    "youtubeId": "lJB82VoSc1g",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Flutie Flakes",
+    "title": "Flutie Flakes",
     "category": "Game Openers",
     "description": "Some Heisman Winners like their cereal more than others.",
-    "youtubeId": "wzKDw-jX-VM"
+    "youtubeId": "wzKDw-jX-VM",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Cougar",
+    "title": "Cougar",
     "category": "Game Openers",
     "description": "Next time the cat scratches up the furniture, be glad it's not a 7-ft apex predator named Shasta.",
-    "youtubeId": "rVh9Xq8vQ2c"
+    "youtubeId": "rVh9Xq8vQ2c",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Acting Class",
+    "title": "Acting Class",
     "category": "Game Openers",
     "description": "Watch the Heisman winners tackle acting.",
-    "youtubeId": "y6Nx6BuxVcY"
+    "youtubeId": "y6Nx6BuxVcY",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman to Heisman",
+    "title": "Heisman to Heisman",
     "category": "Heisman to Heisman",
     "description": "Robert Griffin III, Johnny Manziel",
-    "youtubeId": "4CGFkU1huWw"
+    "youtubeId": "4CGFkU1huWw",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman to Heisman",
+    "title": "Heisman to Heisman",
     "category": "Heisman to Heisman",
     "description": "Ricky Williams, Robert Griffin III, Andre Ware",
-    "youtubeId": "8yov3jCuUiI"
+    "youtubeId": "8yov3jCuUiI",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman to Heisman",
+    "title": "Heisman to Heisman",
     "category": "Heisman to Heisman",
     "description": "Andre Ware, Johnny Manziel",
-    "youtubeId": "b-V7D8ReiaY"
+    "youtubeId": "b-V7D8ReiaY",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman to Heisman",
+    "title": "Heisman to Heisman",
     "category": "Heisman to Heisman",
     "description": "Marcus Allen, Tony Dorsett",
-    "youtubeId": "fieFgvjusaA"
+    "youtubeId": "fieFgvjusaA",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman to Heisman",
+    "title": "Heisman to Heisman",
     "category": "Heisman to Heisman",
     "description": "Tony Dorsett, George Rogers, Marcus Allen, Billy Sims, John David Crow",
-    "youtubeId": "wULRi7vO4-U"
+    "youtubeId": "wULRi7vO4-U",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Behind the Scenes",
+    "title": "Behind the Scenes",
     "category": "Heisman to Heisman",
     "description": "Flutie Flakes",
-    "youtubeId": "pErhwnFQfVM"
+    "youtubeId": "pErhwnFQfVM",
+    "isActive": true,
+    "isFeatured": false
   },{
-    "name": "Behind the Scenes",
+    "title": "Behind the Scenes",
     "category": "Heisman to Heisman",
     "description": "John David Crow, Johnny Manziel",
-    "youtubeId": "mmKxs-MZEHs"
+    "youtubeId": "mmKxs-MZEHs",
+    "isActive": true,
+    "isFeatured": false
   },{
-    "name": "Teaser",
+    "title": "Teaser",
     "category": "Heisman to Heisman",
     "description": "Shasta, Andre Ware",
-    "youtubeId": "E_QFnluasys"
+    "youtubeId": "E_QFnluasys",
+    "isActive": true,
+    "isFeatured": false
   },{
-    "name": "Heisman Highlights",
+    "title": "Heisman Highlights",
     "category": "Heisman Highlights",
     "description": "Andre Ware",
-    "youtubeId": "xqba1VyDqcI"
+    "youtubeId": "xqba1VyDqcI",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman Highlights",
+    "title": "Heisman Highlights",
     "category": "Heisman Highlights",
     "description": "Billy Sims",
-    "youtubeId": "sum_hSnMO3c"
+    "youtubeId": "sum_hSnMO3c",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman Highlights",
+    "title": "Heisman Highlights",
     "category": "Heisman Highlights",
     "description": "George Rogers",
-    "youtubeId": "lPgGMaKm6YA"
+    "youtubeId": "lPgGMaKm6YA",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman Highlights",
+    "title": "Heisman Highlights",
     "category": "Heisman Highlights",
     "description": "John David Crow",
-    "youtubeId": "hLbX2-9WIXY"
+    "youtubeId": "hLbX2-9WIXY",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman Highlights",
+    "title": "Heisman Highlights",
     "category": "Heisman Highlights",
     "description": "Johnny Manziel",
-    "youtubeId": "2rh3wYygyQo"
+    "youtubeId": "2rh3wYygyQo",
+    "isActive": true,
+    "isFeatured": true
   },{
-    "name": "Heisman Highlights",
+    "title": "Heisman Highlights",
     "category": "Heisman Highlights",
     "description": "Roger Staubach",
-    "youtubeId": "SZLdCU3DM88"
+    "youtubeId": "SZLdCU3DM88",
+    "isActive": true,
+    "isFeatured": true
   }]
 };
