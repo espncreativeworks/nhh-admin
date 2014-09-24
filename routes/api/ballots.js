@@ -112,7 +112,7 @@ function showBallot(req, res){
       });
       return Athlete.populate(ballot, opts);
     } else {
-      res.json(200, ballot);
+      return ballot;
     }
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
