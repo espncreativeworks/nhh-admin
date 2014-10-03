@@ -323,7 +323,7 @@ function showVote(req, res){
 
 function getIpGeolocation(ip){
   var deferred = Q.defer()
-    , baseUrl = 'https://freegeoip.net/json/'
+    , baseUrl = 'http://freegeoip.net/json/'
     , _url = baseUrl + ip
     , opts = {
       method: 'GET',
