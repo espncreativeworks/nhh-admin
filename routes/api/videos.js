@@ -9,6 +9,10 @@ function listVideos(req, res){
     doc.isFeatured = true;
   }
 
+  if (req.query.category){
+    doc.category = req.query.category.trim();
+  }
+
   if (req.query.active && parseInt(req.query.active, 10) == 1){
     doc.isActive = true;
   }
