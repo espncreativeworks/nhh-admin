@@ -11,7 +11,8 @@ var Ballot = new keystone.List('Ballot', {
   defaultSort: '-startedAt',
   map: { name: 'title' },
   defaultColumns: 'title isActive totalVotes',
-  track: true
+  track: true,
+  nodelete: true
 });
 
 Ballot.add({
