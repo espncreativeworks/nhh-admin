@@ -23,7 +23,8 @@ IpAddress.add({
   address: { type: Types.Text, initial: true, required: true, index: true, note: 'e.g., 192.234.2.49' },
   location: { type: Types.Location }
 }, 'Meta', {
-  totalVotes: { type: Types.Number, default: 0, noedit: true }
+  totalVotes: { type: Types.Number, default: 0, noedit: true },
+  isBlacklisted: { type: Boolean, default: false }
 });
 
 /**

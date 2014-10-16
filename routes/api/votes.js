@@ -110,7 +110,7 @@ function createVote(req, res){
   if (!isValidMedium){
     err = new Error('Invalid Medium');
     err.message = 'Medium ' + doc.medium + ' is not a valid medium code.';
-    throw err;
+    return res.json(400, err);
   }
 
   Ballot.findOne({ _id: doc.ballot }).exec().then(function (ballot){
@@ -181,8 +181,15 @@ function createVote(req, res){
         deferred.reject(err);
       });
     } else {
-      doc.ipAddress = ipAddress._id;
-      deferred.resolve(doc);
+      if (ipAddress.isBlacklisted){
+        console.error('Rejecting blacklisted IP Address [' + ipAddress.address + '] ...');
+        var err = new Error('Invalid IP Address');
+        err.message = 'IP Address ' + ipAddress.address + ' is invalid.';
+        deferred.reject(err);
+      } else {
+        doc.ipAddress = ipAddress._id;
+        deferred.resolve(doc);
+      }
     }
     return deferred.promise;
   }, function (err){
