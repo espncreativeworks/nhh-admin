@@ -2,7 +2,7 @@ var keystone = require('keystone')
   , Video = keystone.list('Video').model;
 
 function listVideos(req, res){
-  var doc = {}
+  var doc = { isActive: true }
     , q;
 
   if (req.query.featured && parseInt(req.query.featured, 10) == 1){
