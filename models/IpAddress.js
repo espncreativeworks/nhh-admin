@@ -13,7 +13,6 @@ var IpAddress = new keystone.List('IpAddress', {
   label: 'IP Address',
   singular: 'IP Address',
   plural: 'IP Addresses',
-  noedit: true,
   nocreate: true,
   nodelete: true,
   track: true
