@@ -117,6 +117,13 @@ function createVote(req, res){
     //console.log(ballot);
     var isValidAthlete = false;
 
+    // return early if ballot does not exist or is inactive
+    if (!ballot || !ballot.isActive){
+      err = new Error('Invalid Ballot');
+      err.message = 'Ballot ' + doc.ballot + ' is inactive';
+      throw err;
+    }
+
     // check for existence of submitted athleteId in ballot.athletes
     //console.log(ballot.athletes[0].toString());
     ballot.athletes.forEach(function (_athleteId){
@@ -124,13 +131,6 @@ function createVote(req, res){
         isValidAthlete = true;
       }
     });
-
-    // return early if ballot is inactive
-    if (!ballot.isActive){
-      err = new Error('Invalid Ballot');
-      err.message = 'Ballot ' + doc.ballot + ' is inactive';
-      throw err;
-    }
 
     // return early is athlete is not part of the ballot
     if (!isValidAthlete){
@@ -146,8 +146,8 @@ function createVote(req, res){
     var err;
     //console.log(athlete);
 
-    // return early if is not active
-    if (!athlete.isActive) {
+    // return early if athlete does not exist or is not active
+    if (!athlete || !athlete.isActive) {
       err = new Error('Invalid Athlete');
       err.message = 'Athlete ' + doc.athlete + ' is inactive.';
       throw err;
