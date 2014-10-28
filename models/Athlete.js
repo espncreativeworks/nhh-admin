@@ -33,7 +33,7 @@ Athlete.add({
 /**
  * Relationships
  */
-Athlete.relationship({ path: 'votes', ref: 'Vote', refPath: 'athlete' });
+// Athlete.relationship({ path: 'votes', ref: 'Vote', refPath: 'athlete' });
 
 /**
  * Registration

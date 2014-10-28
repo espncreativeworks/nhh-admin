@@ -28,7 +28,7 @@ Ballot.add({
 /**
  * Relationships
  */
-Ballot.relationship({ path: 'votes', ref: 'Vote', refPath: 'ballot' });
+// Ballot.relationship({ path: 'votes', ref: 'Vote', refPath: 'ballot' });
 
 /**
  * Registration
