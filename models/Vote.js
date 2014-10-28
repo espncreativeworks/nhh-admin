@@ -21,11 +21,11 @@ var Vote = new keystone.List('Vote', {
 });
 
 Vote.add({
-  ballot: { type: Types.Relationship, ref: 'Ballot', required: true, initial: true },
+  ballot: { type: Types.Relationship, ref: 'Ballot', required: true, initial: true, index: true },
   athlete: { type: Types.Relationship, ref: 'Athlete', required: true, initial: true }
 }, 'Meta', {
-  submittedAt: { type: Types.Datetime, default: Date.now },
-  medium: { type: Types.Select, numeric: true, required: true, initial: true, options: [
+  submittedAt: { type: Types.Datetime, default: Date.now, index: true },
+  medium: { type: Types.Select, numeric: true, required: true, initial: true, index: true, options: [
     { value: 1, label: 'Desktop' },
     { value: 2, label: 'Mobile' },
     { value: 3, label: 'Ad Unit' },
