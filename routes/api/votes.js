@@ -162,10 +162,10 @@ function createVote(req, res){
         var _doc = {
           address: _ip.ip,
           location: {
-            suburb: _ip.city,
-            state: _ip.region_code,
-            postcode: _ip.zipcode,
-            country: _ip.country_name,
+            suburb: _ip.city || '',
+            state: _ip.region_code || '',
+            postcode: _ip.postal_code || '',
+            country: _ip.country_code || '',
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
@@ -330,7 +330,7 @@ function showVote(req, res){
 
 function getIpGeolocation(ip){
   var deferred = Q.defer()
-    , baseUrl = 'http://freegeoip.net/json/'
+    , baseUrl = 'http://www.telize.com/geoip/'
     , _url = baseUrl + ip
     , opts = {
       method: 'GET',
