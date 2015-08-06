@@ -30,6 +30,34 @@ Ballot.add({
  */
 // Ballot.relationship({ path: 'votes', ref: 'Vote', refPath: 'ballot' });
 
+Ballot.schema.pre('save', function (next){
+  var Athlete = keystone.list('Athlete').model
+    , self = this
+    , _conditions = { }
+    , _update = { $set: { isActive: false } }
+    , _options = { multi: true };
+  
+  if (self.isActive){
+    Athlete.update(_conditions, _update, _options).exec().then(function (result) {
+      _conditions = { _id: { $in: self.athletes } };
+      _update = { $set: { isActive: true } };
+      console.log(result);
+      return Athlete.update(_conditions, _update, _options).exec();
+    }, function (err){
+      console.error(err);
+      next(err);
+    }).then(function (result){
+      console.log(result);
+      next();
+    }, function (err){
+      console.error(err);
+      next(err);
+    });
+  } else {
+    next();
+  }
+});
+
 /**
  * Registration
  */
