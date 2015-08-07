@@ -27,7 +27,8 @@ var _ = require('underscore'),
 var whitelist = [
 	'http://promo.espn.go.com',
 	'http://preview.espncreativeworks.com',
-	'http://vwtsbar04.corp.espn3.com:3467'
+	'http://vwtsbar04.corp.espn3.com:3467',
+	'http://localhost:9000'
 ];
 
 var corsOptionsDelegate = function(req, callback){
