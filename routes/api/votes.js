@@ -169,6 +169,7 @@ function createVote(req, res){
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
+        console.log("getipgeoloc: ", _doc);
         return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
@@ -201,12 +202,12 @@ function createVote(req, res){
       , _osDeferred = Q.defer()
       , _deviceDeferred = Q.defer()
       , agent = useragent.lookup(doc.userAgent)
-      // , _userAgent = _.extend({}, agent)
-      // , _operatingSystem = _.extend({}, agent.os)
-      // , _device = _.extend({}, agent.device);
-      , _userAgent = agent
-      , _operatingSystem = agent.os
-      , _device = agent.device;
+      , _userAgent = _.extend({}, agent)
+      , _operatingSystem = _.extend({}, agent.os)
+      , _device = _.extend({}, agent.device);
+      // , _userAgent = agent
+      // , _operatingSystem = agent.os
+      // , _device = agent.device;
 
     UserAgent.findOne(_userAgent).exec().then(function (ua){
       if (!ua){
