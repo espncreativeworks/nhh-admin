@@ -201,9 +201,12 @@ function createVote(req, res){
       , _osDeferred = Q.defer()
       , _deviceDeferred = Q.defer()
       , agent = useragent.lookup(doc.userAgent)
-      , _userAgent = _.extend({}, agent)
-      , _operatingSystem = _.extend({}, agent.os)
-      , _device = _.extend({}, agent.device);
+      // , _userAgent = _.extend({}, agent)
+      // , _operatingSystem = _.extend({}, agent.os)
+      // , _device = _.extend({}, agent.device);
+      , _userAgent = agent
+      , _operatingSystem = agent.os
+      , _device = agent.device;
 
     UserAgent.findOne(_userAgent).exec().then(function (ua){
       if (!ua){
@@ -331,8 +334,13 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url = baseUrl + ip
-    , opts = {
+    , _url
+  if (ip == "::1") {
+    _url = baseUrl
+  } else {
+    _url = baseUrl + ip
+  }
+  var opts = {
       method: 'GET',
       url: _url
     };
