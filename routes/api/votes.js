@@ -336,7 +336,7 @@ function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
     , split = ip.split(":")
-    , sl = split.length;
+    , sl = split.length
     , _url = baseUrl + split[sl-1];
 
 
