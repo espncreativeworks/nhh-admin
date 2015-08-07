@@ -335,12 +335,12 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url
-  if (ip == "::1") {
-    _url = baseUrl
-  } else {
-    _url = baseUrl + ip
-  }
+    , _url = baseUrl
+  // if (ip == "::1") {
+  //   _url = baseUrl
+  // } else {
+  //   _url = baseUrl + ip
+  // }
   var opts = {
       method: 'GET',
       url: _url
