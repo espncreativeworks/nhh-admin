@@ -335,7 +335,11 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url = baseUrl
+    , split = ip.split(":")
+    , sl = split.length;
+    , _url = baseUrl + split[sl-1];
+
+
   // if (ip == "::1") {
   //   _url = baseUrl
   // } else {
