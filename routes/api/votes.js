@@ -354,6 +354,7 @@ function getIpGeolocation(ip){
     if (err){
       return deferred.reject(err);
     }
+    console.log("func getipgeoloc: ", body);
     return deferred.resolve(JSON.parse(body));
   });
 
