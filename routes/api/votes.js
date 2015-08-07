@@ -202,10 +202,10 @@ function createVote(req, res){
       , _osDeferred = Q.defer()
       , _deviceDeferred = Q.defer()
       , agent = useragent.lookup(doc.userAgent)
-      , _userAgent = _.extend({}, agent)
+      // , _userAgent = _.extend({}, agent)
       // , _operatingSystem = _.extend({}, agent.os)
       // , _device = _.extend({}, agent.device);
-      // , _userAgent = agent
+      , _userAgent = agent
       , _operatingSystem = agent.os
       , _device = agent.device;
 
