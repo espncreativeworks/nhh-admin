@@ -85,6 +85,7 @@ exports = module.exports = function(app) {
 
 	// schools
 	app.get('/api/schools', routes.api.schools.list);
+	app.post('/api/schools', routes.api.schools.create);
 	app.get('/api/schools/:id', routes.api.schools.show);
 
 	// positions

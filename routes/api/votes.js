@@ -169,7 +169,7 @@ function createVote(req, res){
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
-        console.log("getipgeoloc: ", _doc);
+        //console.log("getipgeoloc: ", _doc);
         return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');

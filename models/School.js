@@ -23,6 +23,36 @@ School.add({
   url: { type: Types.Url, note: 'e.g., Wikipedia URL, if available' }
 });
 
+/** Schema Settings */
+// Update Meta fields
+// School.schema.post('save', function (doc){
+//   console.info('[School.post(\'save\')] Start!');
+//   // console.log(util.inspect(this));
+//   console.log("School.post this: ", this);
+
+//   var espnId = this.espnId
+//       , name = this.name
+//       , abbreviation = this.abbreviation
+//       , primaryColor = this.primaryColor
+//       , secondaryColor = null
+//       , schoolUpdateQ
+
+//   schoolUpdateQ = School.model.findOne({'name': name}).exec();
+
+//   schoolUpdateQ.then(function (school){
+//     console.log("school model: ", school);
+//     if (!school) {
+//       console.log("school doesn't exist");
+//     } else {
+//       console.log("else school model: ", school);
+//     }
+//   }, function (err){
+//     console.error('[School.post(\'save\')] Error from school update...');
+//     console.error(err);
+//   });
+
+// });
+
 /**
  * Relationships
  */
