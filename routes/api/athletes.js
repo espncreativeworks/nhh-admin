@@ -63,7 +63,48 @@ function showAthlete(req, res){
   });
 }
 
+function createAthlete(req, res) {
+  console.log("create athlete");
+  var nameObj = {
+    first: req.param('firstName'),
+    last: req.param('lastName')
+  };
+  var doc = {
+    espnId: req.param('espnId'),
+    name: nameObj,
+    jersey: req.param('jersey')
+  };
+  //console.log(doc);
+
+  Athlete.findOne({name: doc.name }).exec().then(function (athlete){
+    // console.log("school route: ", school);
+    //athlete doesn't exist, add to db
+    if (!athlete) {
+      // console.log("school doesn't exist, add to db!");
+      return Athlete.create(doc);
+    } else {
+      return err;
+    }
+  }, function (err){
+    console.log('Error athlete already exists...');
+    console.error(err);
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (athlete){
+    console.log(athlete);
+    var q = Athlete.findOne(athlete);
+    return q.exec();
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (athlete){
+    //console.log(vote);
+    res.json(201, athlete);
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  });
+}
+
 exports = module.exports = {
   list: listAthletes,
-  show: showAthlete
+  show: showAthlete,
+  create: createAthlete
 };

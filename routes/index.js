@@ -73,6 +73,7 @@ exports = module.exports = function(app) {
 
 	// athletes
 	app.get('/api/athletes', routes.api.athletes.list);
+	app.post('/api/athletes', routes.api.athletes.create);
 	app.get('/api/athletes/:id', routes.api.athletes.show);
 
 	// tour stops
@@ -91,10 +92,6 @@ exports = module.exports = function(app) {
 	// positions
 	app.get('/api/positions', routes.api.positions.list);
 	app.get('/api/positions/:id', routes.api.positions.show);
-
-	// experiences
-	app.get('/api/experiences', routes.api.experiences.list);
-	app.get('/api/experiences/:id', routes.api.experiences.show);
 
 	// links
 	app.post('/api/links/shorten', routes.api.links.shorten);

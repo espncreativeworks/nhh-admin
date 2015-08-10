@@ -45,13 +45,12 @@ function createSchool(req, res) {
   //console.log(doc);
 
   School.findOne({name: doc.name }).exec().then(function (school){
-    console.log("school route: ", school);
+    // console.log("school route: ", school);
     //school doesn't exist, add to db
     if (!school) {
-      console.log("school doesn't exist, add to db!");
+      // console.log("school doesn't exist, add to db!");
       return School.create(doc);
     } else {
-      console.log("school exists!");
       return err;
     }
   }, function (err){
