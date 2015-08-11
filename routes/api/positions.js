@@ -27,7 +27,43 @@ function showPosition(req, res){
   });
 }
 
+function createPosition(req, res) {
+  console.log("create position");
+  var doc = {
+    name: req.param('name'),
+    abbreviation: req.param('abbreviation')
+  };
+  //console.log(doc);
+
+  Position.findOne({name: doc.name }).exec().then(function (position){
+    console.log("position route: ", position);
+    //position doesn't exist, add to db
+    if (!position) {
+      // console.log("school doesn't exist, add to db!");
+      return Position.create(doc);
+    } else {
+      return err;
+    }
+  }, function (err){
+    console.log('Error position already exists...');
+    console.error(err);
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (position){
+    console.log(position);
+    var q = Position.findOne(position);
+    return q.exec();
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (position){
+    //console.log(vote);
+    res.json(201, position);
+  }, function (err){
+    res.json(500, { name: err.name, message: err.message });
+  });
+}
+
 exports = module.exports = {
   list: listPositions,
-  show: showPosition
+  show: showPosition,
+  create: createPosition
 };

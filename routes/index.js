@@ -92,6 +92,7 @@ exports = module.exports = function(app) {
 
 	// positions
 	app.get('/api/positions', routes.api.positions.list);
+	app.post('/api/positions', routes.api.positions.create);
 	app.get('/api/positions/:id', routes.api.positions.show);
 
 	// links

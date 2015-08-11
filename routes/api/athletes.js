@@ -1,6 +1,11 @@
 var keystone = require('keystone')
+  , ObjectId = keystone.mongoose.Types.ObjectId
   , Athlete = keystone.list('Athlete').model
-  , Ballot = keystone.list('Ballot').model;
+  , School = keystone.list('School').model
+  , Ballot = keystone.list('Ballot').model
+  , Experience = keystone.list('Experience').model
+  , Position = keystone.list('Position').model
+  , _ = require('underscore');
 
 function listAthletes(req, res){
   var doc = {}, q, refs, _selects;
@@ -74,34 +79,58 @@ function createAthlete(req, res) {
     espnId: req.param('espnId'),
     name: nameObj,
     jersey: req.param('jersey'),
-    isActive: true
+    isActive: true,
+    schoolName: req.param('school'),
+    experienceName: req.param('experience'),
+    positionName: req.param('position')
   };
   //console.log(doc);
 
-  Athlete.findOne({name: doc.name }).exec().then(function (athlete){
-    // console.log("school route: ", school);
-    //athlete doesn't exist, add to db
-    if (!athlete) {
-      // console.log("school doesn't exist, add to db!");
-      return Athlete.create(doc);
-    } else {
-      return err;
-    }
-  }, function (err){
-    console.log('Error athlete already exists...');
-    console.error(err);
-    res.json(500, { name: err.name, message: err.message });
-  }).then(function (athlete){
-    console.log(athlete);
-    var q = Athlete.findOne(athlete);
-    return q.exec();
-  }, function (err){
-    res.json(500, { name: err.name, message: err.message });
-  }).then(function (athlete){
-    //console.log(vote);
-    res.json(201, athlete);
-  }, function (err){
-    res.json(500, { name: err.name, message: err.message });
+  School.findOne({name: doc.schoolName}).exec().then(function (school){
+    console.log("school._id: ", school._id);
+    _doc = _.extend(doc, {school: ObjectId(school._id)});
+    return _doc;
+  }).then(function (_doc) {
+    console.log("after school: ", _doc);
+    return Experience.findOne({name: _doc.experienceName}).exec();
+  }).then(function (exp) {
+    console.log("exp: ", exp);
+    _doc = _.extend(doc, {experience: ObjectId(exp._id)});
+    return _doc;
+  }).then(function (_doc){
+    console.log("after experience: ", _doc);
+    console.log(Position.findOne({name: _doc.positionName}));
+    return Position.findOne({name: _doc.positionName}).exec();
+  }).then(function (pos){
+    console.log("pos: ", pos);
+    _doc = _.extend(doc, {position: ObjectId(pos._id)});
+    console.log("_doc: ", _doc);
+    return _doc;
+  }).then(function (_doc) {
+    console.log("got all athlete elements");
+    Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
+      //athlete doesn't exist, add to db
+      if (!athlete) {
+        return Athlete.create(_doc);
+      } else {
+        return err;
+      }
+    }, function (err){
+      console.log('Error athlete already exists...');
+      console.error(err);
+      res.json(500, { name: err.name, message: err.message });
+    }).then(function (athlete){
+      console.log(athlete);
+      var q = Athlete.findOne(athlete);
+      return q.exec();
+    }, function (err){
+      res.json(500, { name: err.name, message: err.message });
+    }).then(function (athlete){
+      //console.log(vote);
+      res.json(201, athlete);
+    }, function (err){
+      res.json(500, { name: err.name, message: err.message });
+    });
   });
 }
 
