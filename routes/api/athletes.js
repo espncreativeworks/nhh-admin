@@ -1,5 +1,6 @@
 var keystone = require('keystone')
-  , Athlete = keystone.list('Athlete').model;
+  , Athlete = keystone.list('Athlete').model
+  , Ballot = keystone.list('Ballot').model;
 
 function listAthletes(req, res){
   var doc = {}, q, refs, _selects;
@@ -72,7 +73,8 @@ function createAthlete(req, res) {
   var doc = {
     espnId: req.param('espnId'),
     name: nameObj,
-    jersey: req.param('jersey')
+    jersey: req.param('jersey'),
+    isActive: true
   };
   //console.log(doc);
 

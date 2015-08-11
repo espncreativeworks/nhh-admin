@@ -19,7 +19,8 @@ Ballot.add({
   title: { type: Types.Text, initial: true, required: true, index: true },
   startedAt: { type: Types.Datetime, default: Date.now, label: 'Start Date' },
   endedAt: { type: Types.Datetime, default: Date.now, label: 'End Date' },
-  athletes: { type: Types.Relationship, ref: 'Athlete', many: true }
+  athletes: { type: Types.Relationship, ref: 'Athlete', many: true },
+  writein: { type: Types.Relationship, ref: 'Athlete', label: 'Write In', many: true }
 }, 'Meta', {
   isActive: { type: Boolean, default: false, index: true, label: 'Current ballot?' },
   totalVotes: { type: Types.Number, default: 0, noedit: true }

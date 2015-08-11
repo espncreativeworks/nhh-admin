@@ -85,6 +85,7 @@ function listVotes(req, res){
 }
 
 function createVote(req, res){
+  console.log("req.ip: ", req.ip + " req.ips: " + req.ips);
   var doc = {
       ballot: ObjectId(req.param('ballotId')),
       athlete: ObjectId(req.param('athleteId')),
@@ -94,7 +95,11 @@ function createVote(req, res){
       operatingSystem: null,
       device: null
     };
-  //console.log(doc);
+
+  if (doc.ipAddress === "::1") {
+    doc.ipAddress = "127.0.0.1";
+  }
+  console.log("doc: ", doc);
 
   var _medium = parseInt(doc.medium, 10)
     , validMediumCodes = [1, 2, 3, 4]
@@ -131,6 +136,13 @@ function createVote(req, res){
         isValidAthlete = true;
       }
     });
+    // check for existence of write in nominee
+    ballot.writein.forEach(function (_athleteId){
+      //console.log(_athleteId + ", " + doc.athlete);
+      if (_athleteId.toString() === doc.athlete.toString()){
+        isValidAthlete = true;
+      }
+    });
 
     // return early is athlete is not part of the ballot
     if (!isValidAthlete){
@@ -144,7 +156,7 @@ function createVote(req, res){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (athlete){
     var err;
-    //console.log(athlete);
+    console.log(doc);
 
     // return early if athlete does not exist or is not active
     if (!athlete || !athlete.isActive) {
@@ -156,6 +168,7 @@ function createVote(req, res){
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ipAddress){
+    console.log("ipAddress: ", ipAddress);
     var deferred = Q.defer();
     if (!ipAddress){
       getIpGeolocation(doc.ipAddress).then(function (_ip){
@@ -169,7 +182,7 @@ function createVote(req, res){
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
-        //console.log("getipgeoloc: ", _doc);
+        console.log("getipgeoloc: ", _doc);
         return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
@@ -194,7 +207,7 @@ function createVote(req, res){
     }
     return deferred.promise;
   }, function (err){
-    console.error('Error from IpAddress.findOne() ...');
+    console.error('Error from IpAddress.findOne() ... ', err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (doc){
     var deferred = Q.defer()
@@ -290,21 +303,23 @@ function createVote(req, res){
     console.log('Error finding or creating ipAddress...');
     console.error(err);
   }).then(function (doc){
+    console.log("before vote create: ", doc);
     return Vote.create(doc);
   }, function (err){
     console.log('Error finding or creating userAgent, operatingSystem or device...');
     console.error(err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
-    //console.log(vote);
+    console.log("before vote.findone(): ", vote);
     var q = Vote.findOne(vote);
     q.populate('athlete', '_id name espnId slug totalVotes');
+    q.populate('writein', '_id name espnId slug totalVotes');
     q.populate('ballot', '_id totalVotes');
     return q.exec();
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
-    //console.log(vote);
+    console.log(vote);
     res.json(201, vote);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
@@ -315,6 +330,7 @@ function showVote(req, res){
   var q = Vote.findOne({ _id: req.params.id });
 
   q.populate('athlete', 'name _id espnId');
+  q.populate('writein', 'name _id espnId');
   q.populate('ballot', '_id totalVotes');
   q.populate('ipAddress', 'address location');
   q.populate('userAgent', 'family major minor patch');
@@ -323,6 +339,7 @@ function showVote(req, res){
 
   q.exec().then(function (vote){
     if (vote){
+      console.log("show vote: ", vote);
       res.json(200, vote);
     } else {
       res.json(404, { name: 'Not Found', message: 'No vote found for :' + req.params.id });
@@ -343,7 +360,9 @@ function getIpGeolocation(ip){
     };
 
   request(opts, function (err, response, body){
+    console.log("getipgeoloc response: ", response);
     if (err){
+      console.log("getipgeoloc err: ", err);
       return deferred.reject(err);
     }
     console.log("func getipgeoloc: ", body);

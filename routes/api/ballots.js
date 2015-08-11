@@ -1,4 +1,5 @@
 var keystone = require('keystone')
+  , ObjectId = keystone.mongoose.Types.ObjectId
   , Ballot = keystone.list('Ballot').model
   , Athlete = keystone.list('Athlete').model
   , School = keystone.list('School').model
@@ -115,15 +116,36 @@ function showBallot(req, res){
       return ballot;
     }
   }, function (err){
+    console.log("ballot route q.exec err: ", err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ballot){
     res.json(200, ballot);
   }, function (err){
+    console.log("ballot route success err: ", err);
     res.json(500, { name: err.name, message: err.message });
   }).end();
 }
 
+function addAthlete(req, res) {
+  var doc = { 
+    ballotId: ObjectId(req.param('ballotId')),
+    athleteId: ObjectId(req.param('athleteId'))
+  }
+
+  console.log("add athlete: ", doc);
+
+  _conditions = { }
+  , _update = { $push: { "writein": doc.athleteId } }
+  , _options = { multi: true };
+
+  Ballot.update(_conditions, _update, _options).exec().then(function (result){
+    //console.log("add athlete result: ", result);
+    return result;
+  });
+}
+
 exports = module.exports = {
   list: listBallots,
-  show: showBallot
+  show: showBallot,
+  create: addAthlete
 };
