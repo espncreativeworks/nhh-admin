@@ -57,6 +57,7 @@ var routes = {
 exports = module.exports = function(app) {
 
 	if (process.env.NODE_ENV !== 'production'){
+		console.log("routes/index: ", app);
 		app.use(cors());
 		app.options('*', cors());
 		app.all('*', cors());
