@@ -145,8 +145,8 @@ function addAthlete(req, res) {
   , _update = { $push: { "writein": doc.athleteId } }
   , _options = { multi: true };
 
-  Ballot.findOne({ _id: doc.ballotId }).update(_conditions, _update, _options).exec().then(function (result){
-    console.log("add athlete result: ", result);
+  Ballot.update(_conditions, _update, _options).exec().then(function (result){
+    console.log("add athlete to ballot result: ", result);
     return result;
   });
 }
