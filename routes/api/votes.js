@@ -183,15 +183,10 @@ function createVote(req, res){
           }
         };
         console.log("getipgeoloc: ", _doc);
-        return IpAddress.findOne({ address: doc.ipAddress }).exec();
+        return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
-      }).then(function(ipAddress){
-        console.log("ipAddress: ", ipAddress);
-        return IpAddress.create(_doc);
-      }, function (err) {
-        console.error("Error from (first) IpAddress.create() ...");
       }).then(function (ipAddress){
         doc.ipAddress = ipAddress._id;
         deferred.resolve(doc);
@@ -359,7 +354,7 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url = baseUrl;
+    , _url = baseUrl + ip;
 
   var opts = {
       method: 'GET',

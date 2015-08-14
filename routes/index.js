@@ -55,14 +55,12 @@ var routes = {
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
-	console.log("node_env: ", process.env.NODE_ENV);
-
 	if (process.env.NODE_ENV !== 'production'){
 		app.options('*', cors());
 		app.all('*', cors());
 	}
 
-	console.log("app: ", app);
+	// console.log("app: ", app);
 
 	// API
 	// votes
