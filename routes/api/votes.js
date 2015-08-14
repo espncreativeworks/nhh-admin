@@ -183,7 +183,7 @@ function createVote(req, res){
           }
         };
         console.log("getipgeoloc: ", _doc);
-        return IpAddress.findOne({ address: doc.ipAddress }).exec();
+        return IpAddress.findOne({ address: _doc.address }).exec();
         // return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
