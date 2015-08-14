@@ -168,7 +168,6 @@ function createVote(req, res){
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ipAddress){
-    console.log("ipAddress: ", ipAddress);
     var deferred = Q.defer();
     if (!ipAddress){
       getIpGeolocation(doc.ipAddress).then(function (_ip){
@@ -194,10 +193,10 @@ function createVote(req, res){
         return IpAddress.findOne({ address: _doc.address }).exec();
       }, function (err) {
         console.error("couldn't find unique ip, so add to db");
-      }).then(function (_ip){
+      }).then(function (nip){
         console.log("findone ip again: ", nip);
         if (!nip) {
-          var _doc = {
+          var ndoc = {
             address: nip.ip,
             location: {
               suburb: nip.city || '',
@@ -207,8 +206,8 @@ function createVote(req, res){
               geo: [ nip.longitude, nip.latitude ]
             }
           };
-          console.log("!_ip _doc: ", _doc);
-          return IpAddress.create(_doc);
+          console.log("!_ip _doc: ", ndoc);
+          return IpAddress.create(ndoc);
         }
       }, function (err){
         console.error('Error from IpAddress.create() ...');
