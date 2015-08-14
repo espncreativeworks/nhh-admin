@@ -153,11 +153,14 @@ function createVote(req, res){
     var err;
     // console.log(doc);
 
-    // return early if athlete does not exist or is not active
-    if (!athlete || !athlete.isActive) {
+    // return early if athlete does not exist
+    // make in active athlete active for write-in ballot
+    if (!athlete) {
       err = new Error('Invalid Athlete');
       err.message = 'Athlete ' + doc.athlete + ' is inactive.';
       throw err;
+    } else if (!athlete.isActive) {
+      athlete.isActive = true;
     }
     return IpAddress.findOne({ address: doc.ipAddress }).exec();
   }, function (err){

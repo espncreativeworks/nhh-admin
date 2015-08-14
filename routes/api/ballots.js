@@ -134,13 +134,6 @@ function addAthlete(req, res) {
 
   console.log("add athlete: ", doc);
 
-  Athlete.findOne({ _id: athleteId }).exec().then(function (athlete){
-    console.log("findone athlete: ", athlete);
-    if (athlete.isActive != true) {
-      athlete.isActive = true;
-    }
-  });
-
   _conditions = { }
   , _update = { $push: { "writein": doc.athleteId } }
   , _options = { multi: true };
