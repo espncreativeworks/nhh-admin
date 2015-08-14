@@ -99,7 +99,7 @@ function createAthlete(req, res) {
     return _doc;
   }).then(function (_doc){
     console.log("after experience: ", _doc);
-    console.log(Position.findOne({name: _doc.positionName}));
+    //console.log(Position.findOne({name: _doc.positionName}));
     return Position.findOne({name: _doc.positionName}).exec();
   }).then(function (pos){
     console.log("pos: ", pos);
@@ -110,6 +110,7 @@ function createAthlete(req, res) {
     console.log("got all athlete elements");
     Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
       //athlete doesn't exist, add to db
+      // console.log("athlete find one: ", athlete);
       if (!athlete) {
         return Athlete.create(_doc);
       } else {
@@ -120,15 +121,17 @@ function createAthlete(req, res) {
       console.error(err);
       res.json(500, { name: err.name, message: err.message });
     }).then(function (athlete){
-      console.log(athlete);
+      // console.log("athlete created: ", athlete);
       var q = Athlete.findOne(athlete);
       return q.exec();
     }, function (err){
+      console.log("error loading athlete");
       res.json(500, { name: err.name, message: err.message });
     }).then(function (athlete){
-      //console.log(vote);
+      // console.log("q.exec: ", athlete);
       res.json(201, athlete);
     }, function (err){
+      console.log("no athlete..");
       res.json(500, { name: err.name, message: err.message });
     });
   });
