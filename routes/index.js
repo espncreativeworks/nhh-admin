@@ -19,12 +19,10 @@
  */
 
 var _ = require('underscore'),
-	express = require('express'),
 	keystone = require('keystone'),
 	middleware = require('./middleware'),
 	importRoutes = keystone.importer(__dirname),
-	cors = require('cors'),
-	app = express();
+	cors = require('cors');
 
 // var whitelist = [
 // 	'http://promo.espn.go.com',
