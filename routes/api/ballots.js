@@ -141,6 +141,7 @@ function addAthlete(req, res) {
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (ballot){
     console.log("findone ballot: ", ballot);
     if (ballot.writein.indexOf(athleteId) === -1) {
+      console.log(athleteId + " not found, add to ballot as write-in");
       Ballot.findOne({ _id: doc.ballotId }).update(_conditions, _update, _options).exec().then(function (result){
         console.log("add athlete result: ", result);
         return result;

@@ -85,7 +85,7 @@ function listVotes(req, res){
 }
 
 function createVote(req, res){
-  console.log("req.ip: ", req.ip + " req.ips: " + req.ips);
+  // console.log("req.ip: ", req.ip + " req.ips: " + req.ips);
   var doc = {
       ballot: ObjectId(req.param('ballotId')),
       athlete: ObjectId(req.param('athleteId')),
@@ -166,7 +166,7 @@ function createVote(req, res){
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ipAddress){
-    console.log("ipAddress: ", ipAddress);
+    // console.log("ipAddress: ", ipAddress);
     var deferred = Q.defer();
     if (!ipAddress){
       getIpGeolocation(doc.ipAddress).then(function (_ip){
@@ -180,7 +180,7 @@ function createVote(req, res){
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
-        console.log("getipgeoloc: ", _doc);
+        // console.log("getipgeoloc: ", _doc);
         return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
@@ -220,7 +220,7 @@ function createVote(req, res){
       , _operatingSystem = agent.os
       , _device = agent.device;
 
-    console.log("UA: ", agent);
+    // console.log("UA: ", agent);
 
     UserAgent.findOne(_userAgent).exec().then(function (ua){
       if (!ua){
@@ -303,14 +303,14 @@ function createVote(req, res){
     console.log('Error finding or creating ipAddress...');
     console.error(err);
   }).then(function (doc){
-    console.log("before vote create: ", doc);
+    // console.log("before vote create: ", doc);
     return Vote.create(doc);
   }, function (err){
     console.log('Error finding or creating userAgent, operatingSystem or device...');
     console.error(err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
-    console.log("before vote.findone(): ", vote);
+    // console.log("before vote.findone(): ", vote);
     var q = Vote.findOne(vote);
     q.populate('athlete', '_id name espnId slug totalVotes');
     q.populate('writein', '_id name espnId slug totalVotes');
@@ -360,9 +360,9 @@ function getIpGeolocation(ip){
     };
 
   request(opts, function (err, response, body){
-    console.log("getipgeoloc response: ", response);
+    // console.log("getipgeoloc response: ", response);
     if (err){
-      console.log("getipgeoloc err: ", err);
+      // console.log("getipgeoloc err: ", err);
       return deferred.reject(err);
     }
     console.log("func getipgeoloc: ", body);
