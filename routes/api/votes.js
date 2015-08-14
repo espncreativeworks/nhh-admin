@@ -186,6 +186,7 @@ function createVote(req, res){
         return IpAddress.findOne({ address: _doc.address }).exec();
         // return IpAddress.create(_doc);
       }, function (err){
+        console.log("first err: ", err);
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
       }).then(function (_ip){
@@ -380,12 +381,12 @@ function getIpGeolocation(ip){
     };
 
   request(opts, function (err, response, body){
-    console.log("getipgeoloc response: ", response);
+    // console.log("getipgeoloc response: ", response);
     if (err){
-      console.log("getipgeoloc err: ", err);
+      // console.log("getipgeoloc err: ", err);
       return deferred.reject(err);
     }
-    console.log("func getipgeoloc: ", body);
+    // console.log("func getipgeoloc: ", body);
     return deferred.resolve(JSON.parse(body));
   });
 
