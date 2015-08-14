@@ -134,25 +134,21 @@ function addAthlete(req, res) {
 
   console.log("add athlete: ", doc);
 
+  Athlete.findOne({ _id: athleteId }).exec().then(function (athlete){
+    console.log("findone athlete: ", athlete);
+    if (athlete.isActive != true) {
+      athlete.isActive = true;
+    }
+  });
+
   _conditions = { }
   , _update = { $push: { "writein": doc.athleteId } }
   , _options = { multi: true };
 
-  Ballot.findOne({ _id: doc.ballotId }).exec().then(function (ballot){
-    console.log("findone ballot: ", ballot);
-    if (ballot.writein.indexOf(athleteId) === -1) {
-      console.log(athleteId + " not found, add to ballot as write-in");
-      Ballot.findOne({ _id: doc.ballotId }).update(_conditions, _update, _options).exec().then(function (result){
-        console.log("add athlete result: ", result);
-        return result;
-      });
-    }
+  Ballot.findOne({ _id: doc.ballotId }).update(_conditions, _update, _options).exec().then(function (result){
+    console.log("add athlete result: ", result);
+    return result;
   });
-
-  // Ballot.findOne({ _id: doc.ballotId }).update(_conditions, _update, _options).exec().then(function (result){
-  //   //console.log("add athlete result: ", result);
-  //   return result;
-  // });
 }
 
 exports = module.exports = {
