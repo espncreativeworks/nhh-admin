@@ -99,7 +99,7 @@ function createVote(req, res){
   if (doc.ipAddress === "::1") {
     doc.ipAddress = "127.0.0.1";
   }
-  console.log("doc: ", doc);
+  // console.log("doc: ", doc);
 
   var _medium = parseInt(doc.medium, 10)
     , validMediumCodes = [1, 2, 3, 4]
