@@ -156,7 +156,7 @@ function createVote(req, res){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (athlete){
     var err;
-    console.log(doc);
+    // console.log(doc);
 
     // return early if athlete does not exist or is not active
     if (!athlete || !athlete.isActive) {
@@ -183,10 +183,15 @@ function createVote(req, res){
           }
         };
         console.log("getipgeoloc: ", _doc);
-        return IpAddress.create(_doc);
+        return IpAddress.findOne({ address: doc.ipAddress }).exec();
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
+      }).then(function(ipAddress){
+        console.log("ipAddress: ", ipAddress);
+        return IpAddress.create(_doc);
+      }, function (err) {
+        console.error("Error from (first) IpAddress.create() ...");
       }).then(function (ipAddress){
         doc.ipAddress = ipAddress._id;
         deferred.resolve(doc);
@@ -221,6 +226,8 @@ function createVote(req, res){
       , _userAgent = agent
       , _operatingSystem = agent.os
       , _device = agent.device;
+
+    console.log("UA: ", agent);
 
     UserAgent.findOne(_userAgent).exec().then(function (ua){
       if (!ua){

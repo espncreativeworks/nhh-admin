@@ -84,7 +84,7 @@ function createAthlete(req, res) {
     experienceName: req.param('experience'),
     positionName: req.param('position')
   };
-  console.log(doc);
+  // console.log(doc);
 
   School.findOne({name: doc.schoolName}).exec().then(function (school){
     console.log("school._id: ", school._id);
