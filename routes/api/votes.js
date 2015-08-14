@@ -168,6 +168,7 @@ function createVote(req, res){
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ipAddress){
+    console.log("ipAddress: ", ipAddress);
     var deferred = Q.defer();
     if (!ipAddress){
       getIpGeolocation(doc.ipAddress).then(function (_ip){
@@ -182,42 +183,16 @@ function createVote(req, res){
           }
         };
         console.log("getipgeoloc: ", _doc);
-        return _doc;
-        // return IpAddress.create(_doc);
+        return IpAddress.create(_doc);
       }, function (err){
-        console.log("first err: ", err);
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
-      }).then(function (_doc){
-        console.log("_doc before find one ip: ", _doc);
-        return IpAddress.findOne({ address: _doc.address }).exec();
-      }, function (err) {
-        console.error("couldn't find unique ip, so add to db");
-      }).then(function (nip){
-        console.log("findone ip again: ", nip);
-        if (!nip) {
-          var ndoc = {
-            address: nip.ip,
-            location: {
-              suburb: nip.city || '',
-              state: nip.region_code || '',
-              postcode: nip.postal_code || '',
-              country: nip.country_code || '',
-              geo: [ nip.longitude, nip.latitude ]
-            }
-          };
-          console.log("!_ip _doc: ", ndoc);
-          return IpAddress.create(ndoc);
-        }
-      }, function (err){
-        console.error('Error from IpAddress.create() ...');
-        deferred.reject(err);
-      }).then(function (_ip){
-        console.log("created new ip!");
+      }).then(function (ipAddress){
         doc.ipAddress = ipAddress._id;
         deferred.resolve(doc);
       }, function (err){
-        console.error("couldn't add ip");
+        console.error('Error from IpAddress.create() ...');
+        deferred.reject(err);
       });
     } else {
       if (ipAddress.isBlacklisted){
@@ -379,7 +354,7 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url = baseUrl;
+    , _url = baseUrl + "?ip=" + ip;
 
   var opts = {
       method: 'GET',
@@ -387,12 +362,12 @@ function getIpGeolocation(ip){
     };
 
   request(opts, function (err, response, body){
-    // console.log("getipgeoloc response: ", response);
+    console.log("getipgeoloc response: ", response);
     if (err){
-      // console.log("getipgeoloc err: ", err);
+      console.log("getipgeoloc err: ", err);
       return deferred.reject(err);
     }
-    // console.log("func getipgeoloc: ", body);
+    console.log("func getipgeoloc: ", body);
     return deferred.resolve(JSON.parse(body));
   });
 
