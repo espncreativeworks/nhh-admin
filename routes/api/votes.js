@@ -183,12 +183,16 @@ function createVote(req, res){
           }
         };
         console.log("getipgeoloc: ", _doc);
-        return IpAddress.findOne({ address: _doc.address }).exec();
+        return _doc;
         // return IpAddress.create(_doc);
       }, function (err){
         console.log("first err: ", err);
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
+      }).then(function (_doc){
+        return IpAddress.findOne({ address: _doc.address }).exec();
+      }, function (err) {
+        console.error("couldn't find unique ip, so add to db");
       }).then(function (_ip){
         console.log("findone ip again: ", _ip);
         if (!_ip) {
