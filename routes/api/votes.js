@@ -183,16 +183,34 @@ function createVote(req, res){
           }
         };
         console.log("getipgeoloc: ", _doc);
-        return IpAddress.create(_doc);
+        return IpAddress.findOne({ address: doc.ipAddress }).exec();
+        // return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
-      }).then(function (ipAddress){
-        doc.ipAddress = ipAddress._id;
-        deferred.resolve(doc);
+      }).then(function (_ip){
+        console.log("findone ip again: ", _ip);
+        if (!_ip) {
+          var _doc = {
+            address: _ip.ip,
+            location: {
+              suburb: _ip.city || '',
+              state: _ip.region_code || '',
+              postcode: _ip.postal_code || '',
+              country: _ip.country_code || '',
+              geo: [ _ip.longitude, _ip.latitude ]
+            }
+          };
+          return IpAddress.create(_doc);
+        }
       }, function (err){
         console.error('Error from IpAddress.create() ...');
         deferred.reject(err);
+      }).then(function (_ip){
+        doc.ipAddress = ipAddress._id;
+        deferred.resolve(doc);
+      }, function (err){
+        console.error("couldn't add ip");
       });
     } else {
       if (ipAddress.isBlacklisted){
@@ -354,7 +372,7 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url = baseUrl + ip;
+    , _url = baseUrl;
 
   var opts = {
       method: 'GET',
