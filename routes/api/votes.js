@@ -202,12 +202,14 @@ function createVote(req, res){
               geo: [ _ip.longitude, _ip.latitude ]
             }
           };
+          console.log("!_ip _doc: ", _doc);
           return IpAddress.create(_doc);
         }
       }, function (err){
         console.error('Error from IpAddress.create() ...');
         deferred.reject(err);
       }).then(function (_ip){
+        console.log("created new ip!");
         doc.ipAddress = ipAddress._id;
         deferred.resolve(doc);
       }, function (err){
