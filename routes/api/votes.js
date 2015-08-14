@@ -195,16 +195,16 @@ function createVote(req, res){
       }, function (err) {
         console.error("couldn't find unique ip, so add to db");
       }).then(function (_ip){
-        console.log("findone ip again: ", _ip);
-        if (!_ip) {
+        console.log("findone ip again: ", nip);
+        if (!nip) {
           var _doc = {
-            address: _ip.ip,
+            address: nip.ip,
             location: {
-              suburb: _ip.city || '',
-              state: _ip.region_code || '',
-              postcode: _ip.postal_code || '',
-              country: _ip.country_code || '',
-              geo: [ _ip.longitude, _ip.latitude ]
+              suburb: nip.city || '',
+              state: nip.region_code || '',
+              postcode: nip.postal_code || '',
+              country: nip.country_code || '',
+              geo: [ nip.longitude, nip.latitude ]
             }
           };
           console.log("!_ip _doc: ", _doc);
