@@ -14,34 +14,36 @@
  * Bind each route pattern your application should respond to in the function
  * that is exported from this module, following the examples below.
  *
- * See the Express application routing documentation for more information:
+ * See the application routing documentation for more information:
  * http://expressjs.com/api.html#app.VERB
  */
 
 var _ = require('underscore'),
+	express = require('express'),
 	keystone = require('keystone'),
 	middleware = require('./middleware'),
 	importRoutes = keystone.importer(__dirname),
-	cors = require('cors');
+	cors = require('cors'),
+	app = express();
 
-var whitelist = [
-	'http://promo.espn.go.com',
-	'http://promo-qa.espn.go.com',
-	'http://preview.espncreativeworks.com',
-	'http://vwtsbar04.corp.espn3.com:3467',
-	'http://localhost:9000',
-	'http://0.0.0.0:9000'
-];
+// var whitelist = [
+// 	'http://promo.espn.go.com',
+// 	'http://promo-qa.espn.go.com',
+// 	'http://preview.espncreativeworks.com',
+// 	'http://vwtsbar04.corp.espn3.com:3467',
+// 	'http://localhost:9000',
+// 	'http://0.0.0.0:9000'
+// ];
 
-var corsOptionsDelegate = function(req, callback){
-  var corsOptions;
-  if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
+// var corsOptionsDelegate = function(req, callback){
+//   var corsOptions;
+//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
+//     corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+//   } else {
+//     corsOptions = { origin: false }; // disable CORS for this request
+//   }
+//   callback(null, corsOptions); // callback expects two parameters: error and options
+// };
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -57,8 +59,6 @@ var routes = {
 exports = module.exports = function(app) {
 
 	if (process.env.NODE_ENV !== 'production'){
-		console.log("routes/index: ", app);
-		app.use(cors());
 		app.options('*', cors());
 		app.all('*', cors());
 	}
