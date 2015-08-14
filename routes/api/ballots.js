@@ -136,7 +136,7 @@ function addAthlete(req, res) {
 
   _conditions = { }
   , _update = { $push: { "writein": doc.athleteId } }
-  , _options = { multi: true };
+  , _options = { multi: true, upsert: true };
 
   Ballot.update(_conditions, _update, _options).exec().then(function (result){
     console.log("add athlete to ballot result: ", result);
