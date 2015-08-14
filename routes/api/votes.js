@@ -190,6 +190,7 @@ function createVote(req, res){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
       }).then(function (_doc){
+        console.log("_doc before find one ip: ", _doc);
         return IpAddress.findOne({ address: _doc.address }).exec();
       }, function (err) {
         console.error("couldn't find unique ip, so add to db");
