@@ -317,16 +317,19 @@ function createVote(req, res){
     q.populate('ballot', '_id totalVotes');
     return q.exec();
   }, function (err){
+    console.log("error vote.findone()");
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
-    console.log(vote);
+    console.log("vote: ", vote);
     res.json(201, vote);
   }, function (err){
+    console.log("error showing vote");
     res.json(500, { name: err.name, message: err.message });
   });
 }
 
 function showVote(req, res){
+  console.log("req.params: ", req.parms);
   var q = Vote.findOne({ _id: req.params.id });
 
   q.populate('athlete', 'name _id espnId');
