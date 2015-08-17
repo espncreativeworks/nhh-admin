@@ -166,7 +166,7 @@ function createVote(req, res){
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ipAddress){
-    // console.log("ipAddress: ", ipAddress);
+    console.log("ipAddress: ", ipAddress);
     var deferred = Q.defer();
     if (!ipAddress){
       getIpGeolocation(doc.ipAddress).then(function (_ip){
