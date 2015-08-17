@@ -310,7 +310,7 @@ function createVote(req, res){
     console.error(err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (vote){
-    // console.log("before vote.findone(): ", vote);
+    console.log("before vote.findone(): ", vote);
     var q = Vote.findOne(vote);
     q.populate('athlete', '_id name espnId slug totalVotes');
     q.populate('writein', '_id name espnId slug totalVotes');
