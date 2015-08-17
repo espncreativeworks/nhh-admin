@@ -128,7 +128,7 @@ function createAthlete(req, res) {
       console.log("error loading athlete");
       res.json(500, { name: err.name, message: err.message });
     }).then(function (athlete){
-      // console.log("q.exec: ", athlete);
+      console.log("q.exec: ", athlete);
       res.json(201, athlete);
     }, function (err){
       console.log("no athlete..");

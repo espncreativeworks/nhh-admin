@@ -127,16 +127,16 @@ function showBallot(req, res){
 }
 
 function addAthlete(req, res) {
-  console.log("addAthlete req.param: ", req.param);
   var doc = { 
     ballotId: ObjectId(req.param('ballotId')),
     athleteId: ObjectId(req.param('_id'))
   }
 
   console.log("add athlete: ", doc);
+  console.log("athleteID: ", doc.athleteId)
 
   _conditions = { }
-  , _update = { $push: { "writein": doc._id } }
+  , _update = { $push: { "writein": doc.athleteId } }
   , _options = { multi: true };
 
   Ballot.update(_conditions, _update, _options).exec().then(function (result){
