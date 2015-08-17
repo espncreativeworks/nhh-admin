@@ -127,6 +127,7 @@ function showBallot(req, res){
 }
 
 function addAthlete(req, res) {
+  console.log("addAthlete req.param: ", req.param);
   var doc = { 
     ballotId: ObjectId(req.param('ballotId')),
     athleteId: ObjectId(req.param('_id'))
