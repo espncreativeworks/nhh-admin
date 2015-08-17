@@ -130,7 +130,7 @@ function addAthlete(req, res) {
   console.log("addAthlete req.param: ", req.param);
   var doc = { 
     ballotId: ObjectId(req.param('ballotId')),
-    athleteId: ObjectId(req.param('_id'))
+    athleteId: ObjectId(req.param('athleteId'))
   }
 
   console.log("add athlete: ", doc);
