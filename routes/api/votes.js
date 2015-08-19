@@ -93,7 +93,9 @@ function createVote(req, res){
     userAgent: req.param('userAgent') || req.get('User-Agent') || null,
     operatingSystem: null,
     device: null
-  };  
+  }; 
+
+  console.log("createVote: ", doc);
 
   var _medium = parseInt(doc.medium, 10)
     , validMediumCodes = [1, 2, 3, 4]
