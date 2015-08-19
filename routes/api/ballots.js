@@ -132,8 +132,8 @@ function addAthlete(req, res) {
     athleteId: ObjectId(req.param('_id'))
   }
 
-  // console.log("add athlete: ", doc);
-  // console.log("athleteID: ", doc.athleteId)
+  console.log("add athlete: ", doc);
+  console.log("athleteID: ", doc.athleteId)
 
   _conditions = { _id: doc.ballotId }
   , _update = { $push: { "writein": doc.athleteId } }
