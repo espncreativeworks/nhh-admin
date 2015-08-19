@@ -95,7 +95,7 @@ function createVote(req, res){
     device: null
   }; 
 
-  console.log("createVote: ", doc);
+  // console.log("createVote: ", doc);
 
   var _medium = parseInt(doc.medium, 10)
     , validMediumCodes = [1, 2, 3, 4]
@@ -153,7 +153,7 @@ function createVote(req, res){
   }).then(function (athlete){
     var err;
     // console.log(doc);
-    console.log("vote api: ", athlete);
+    // console.log("vote api: ", athlete);
 
     // return early if athlete does not exist
     // make in active athlete active for write-in ballot
@@ -173,6 +173,7 @@ function createVote(req, res){
 
     return IpAddress.findOne({ address: doc.ipAddress }).exec();
   }, function (err){
+    console.log("athlete findone error: ", err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (ipAddress){
     console.log("ipAddress: ", ipAddress);
