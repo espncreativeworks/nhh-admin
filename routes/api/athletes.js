@@ -10,6 +10,9 @@ var keystone = require('keystone')
 function listAthletes(req, res){
   var doc = {}, q, refs, _selects;
 
+  console.log("query.active: ", req.query.active);
+  console.log("query.writein: ", req.query.writein);
+
   if (parseInt(req.query.active || 0, 10) === 1){
     doc.isActive = true;
   }
