@@ -315,7 +315,6 @@ function createVote(req, res){
     console.error(err);
   }).then(function (doc){
     console.log("before vote create: ", doc);
-    // console.log("before vote create: ", athlete);
     return Vote.create(doc);
   }, function (err){
     console.log('Error finding or creating userAgent, operatingSystem or device...');
