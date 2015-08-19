@@ -151,6 +151,7 @@ function createVote(req, res){
   }).then(function (athlete){
     var err;
     // console.log(doc);
+    console.log("vote api: ", athlete);
 
     // return early if athlete does not exist
     // make in active athlete active for write-in ballot
@@ -160,6 +161,10 @@ function createVote(req, res){
       throw err;
     } else if (!athlete.isActive) {
       athlete.isActive = true;
+      
+      if(!athlete.isWritein) {
+        athlete.isWritein = true;
+      }
     }
     return IpAddress.findOne({ address: doc.ipAddress }).exec();
   }, function (err){
