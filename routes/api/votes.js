@@ -196,6 +196,7 @@ function createVote(req, res){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
       }).then(function (ipAddress){
+        console.log("findone ipaddres: ", ipAddress);
         doc.ipAddress = ipAddress._id;
         deferred.resolve(doc);
       }, function (err){
