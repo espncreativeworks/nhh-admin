@@ -190,13 +190,13 @@ function createVote(req, res){
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
-        console.log("getipgeoloc: ", _doc);
+        // console.log("getipgeoloc: ", _doc);
         return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
         deferred.reject(err);
       }).then(function (ipAddress){
-        console.log("findone ipaddres: ", ipAddress);
+        // console.log("findone ipaddres: ", ipAddress);
         doc.ipAddress = ipAddress._id;
         deferred.resolve(doc);
       }, function (err){
@@ -314,7 +314,7 @@ function createVote(req, res){
     console.log('Error finding or creating ipAddress...');
     console.error(err);
   }).then(function (doc){
-    // console.log("before vote create: ", doc);
+    console.log("before vote create: ", doc);
     console.log("before vote create: ", athlete);
     return Vote.create(doc);
   }, function (err){
