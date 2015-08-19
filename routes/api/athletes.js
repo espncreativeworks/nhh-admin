@@ -75,7 +75,6 @@ function createAthlete(req, res) {
     first: req.param('firstName'),
     last: req.param('lastName')
   };
-  console.log("createAthlete nameObj: ", nameObj);
   var doc = {
     espnId: req.param('espnId'),
     name: nameObj,
@@ -85,27 +84,27 @@ function createAthlete(req, res) {
     experienceName: req.param('experience'),
     positionName: req.param('position')
   };
-  console.log(doc);
+  // console.log(doc);
 
   School.findOne({name: doc.schoolName}).exec().then(function (school){
-    console.log("school._id: ", school._id);
+    // console.log("school._id: ", school._id);
     _doc = _.extend(doc, {school: ObjectId(school._id)});
     return _doc;
   }).then(function (_doc) {
-    console.log("after school: ", _doc);
+    // console.log("after school: ", _doc);
     return Experience.findOne({name: _doc.experienceName}).exec();
   }).then(function (exp) {
-    console.log("exp: ", exp);
+    // console.log("exp: ", exp);
     _doc = _.extend(doc, {experience: ObjectId(exp._id)});
     return _doc;
   }).then(function (_doc){
-    console.log("after experience: ", _doc);
+    // console.log("after experience: ", _doc);
     //console.log(Position.findOne({name: _doc.positionName}));
     return Position.findOne({name: _doc.positionName}).exec();
   }).then(function (pos){
     // console.log("pos: ", pos);
     _doc = _.extend(doc, {position: ObjectId(pos._id)});
-    console.log("_doc: ", _doc);
+    // console.log("_doc: ", _doc);
     return _doc;
   }).then(function (_doc) {
     console.log("got all athlete elements");
