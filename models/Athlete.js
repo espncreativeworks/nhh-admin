@@ -23,6 +23,7 @@ Athlete.add({
   school: { type: Types.Relationship, ref: 'School' }
 }, 'Meta', {
   isActive: { type: Boolean, default: false, index: true, label: 'On ballot?' },
+  isWritein: { type: Boolean, default: false, index: true, label: 'Write In Nominee?' },
   isIntroduction: { type: Boolean, default: false, index: true, label: 'New candidate?' },
   isReturning: { type: Boolean, default: false, index: true, label: 'Returning after absence?' },
   introducedOn:  { type: Types.Date, note: 'The date when the player was first included on the Heisman Watch' },

@@ -80,6 +80,7 @@ function createAthlete(req, res) {
     name: nameObj,
     jersey: req.param('jersey'),
     isActive: true,
+    isWritein: true,
     schoolName: req.param('school'),
     experienceName: req.param('experience'),
     positionName: req.param('position')
