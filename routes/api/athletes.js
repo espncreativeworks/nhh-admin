@@ -13,12 +13,6 @@ function listAthletes(req, res){
   if (parseInt(req.query.active || 0, 10) === 1){
     doc.isActive = true;
   }
-  console.log("req.query.writein: ", req.query.writein);
-  if (parseInt(req.query.writein || 0, 10) === 0 && req.query.writein !== undefined){
-    doc.isWritein = false;
-  }
-
-  console.log("doc: ", doc);
 
   q = Athlete.find(doc).select('-__v');
 
