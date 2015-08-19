@@ -17,6 +17,9 @@ function listAthletes(req, res){
   if (parseInt(req.query.active || 0, 10) === 1){
     doc.isActive = true;
   }
+  if (parseInt(req.query.writein || 0, 10) === 0){
+    doc.isWritein = false;
+  }
 
   q = Athlete.find(doc).select('-__v');
 
