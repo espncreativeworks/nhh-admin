@@ -315,7 +315,7 @@ function createVote(req, res){
     console.error(err);
   }).then(function (doc){
     console.log("before vote create: ", doc);
-    console.log("before vote create: ", athlete);
+    // console.log("before vote create: ", athlete);
     return Vote.create(doc);
   }, function (err){
     console.log('Error finding or creating userAgent, operatingSystem or device...');
@@ -327,6 +327,7 @@ function createVote(req, res){
     q.populate('athlete', '_id name espnId slug totalVotes');
     q.populate('writein', '_id name espnId slug totalVotes');
     q.populate('ballot', '_id totalVotes');
+    console.log("q.exec: ",q.exec());
     return q.exec();
   }, function (err){
     console.log("error vote.findone()");
