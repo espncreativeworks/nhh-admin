@@ -81,17 +81,17 @@ function createAthlete(req, res) {
     first: req.param('firstName'),
     last: req.param('lastName')
   };
+  console.log("createAthlete nameObj: ", nameObj);
   var doc = {
     espnId: req.param('espnId'),
     name: nameObj,
     jersey: req.param('jersey'),
-    isActive: true,
     isWritein: true,
     schoolName: req.param('school'),
     experienceName: req.param('experience'),
     positionName: req.param('position')
   };
-  // console.log(doc);
+  console.log(doc);
 
   School.findOne({name: doc.schoolName}).exec().then(function (school){
     // console.log("school._id: ", school._id);
@@ -111,7 +111,7 @@ function createAthlete(req, res) {
   }).then(function (pos){
     // console.log("pos: ", pos);
     _doc = _.extend(doc, {position: ObjectId(pos._id)});
-    //console.log("_doc: ", _doc);
+    // console.log("_doc: ", _doc);
     return _doc;
   }).then(function (_doc) {
     console.log("got all athlete elements");
@@ -128,7 +128,7 @@ function createAthlete(req, res) {
       console.error(err);
       res.json(500, { name: err.name, message: err.message });
     }).then(function (athlete){
-      // console.log("athlete created: ", athlete);
+      console.log("athlete created: ", athlete);
       var q = Athlete.findOne(athlete);
       return q.exec();
     }, function (err){

@@ -166,6 +166,9 @@ function createVote(req, res){
         athlete.isWritein = true;
       }
     }
+
+    console.log("athlete: ", athlete);
+
     return IpAddress.findOne({ address: doc.ipAddress }).exec();
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
@@ -307,7 +310,8 @@ function createVote(req, res){
     console.log('Error finding or creating ipAddress...');
     console.error(err);
   }).then(function (doc){
-    console.log("before vote create: ", doc);
+    // console.log("before vote create: ", doc);
+    console.log("before vote create: ", athlete);
     return Vote.create(doc);
   }, function (err){
     console.log('Error finding or creating userAgent, operatingSystem or device...');
