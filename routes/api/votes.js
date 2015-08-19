@@ -380,7 +380,7 @@ function getIpGeolocation(ip){
       // console.log("getipgeoloc err: ", err);
       return deferred.reject(err);
     }
-    console.log("func getipgeoloc: ", body);
+    // console.log("func getipgeoloc: ", body);
     return deferred.resolve(JSON.parse(body));
   });
 

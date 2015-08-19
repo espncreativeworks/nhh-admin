@@ -140,7 +140,7 @@ function addAthlete(req, res) {
   , _options = { multi: true };
 
   Ballot.update(_conditions, _update, _options).exec().then(function (result){
-    // console.log("add athlete to ballot result: ", result);
+    console.log("add athlete to ballot result: ", result);
     return result;
   });
 }
