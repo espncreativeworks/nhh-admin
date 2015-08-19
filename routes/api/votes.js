@@ -85,16 +85,15 @@ function listVotes(req, res){
 }
 
 function createVote(req, res){
-  // console.log("req.ip: ", req.ip + " req.ips: " + req.ips);
   var doc = {
-      ballot: ObjectId(req.param('ballotId')),
-      athlete: ObjectId(req.param('athleteId')),
-      medium: req.param('medium'),
-      ipAddress: req.param('ipAddress') || req.ip || req.ips[0] || null,
-      userAgent: req.param('userAgent') || req.get('User-Agent') || null,
-      operatingSystem: null,
-      device: null
-    };
+    ballot: ObjectId(req.param('ballotId')),
+    athlete: ObjectId(req.param('athleteId')),
+    medium: req.param('medium'),
+    ipAddress: req.param('ipAddress') || req.ip || req.ips[0] || null,
+    userAgent: req.param('userAgent') || req.get('User-Agent') || null,
+    operatingSystem: null,
+    device: null
+  };  
 
   var _medium = parseInt(doc.medium, 10)
     , validMediumCodes = [1, 2, 3, 4]
@@ -303,7 +302,7 @@ function createVote(req, res){
     console.log('Error finding or creating ipAddress...');
     console.error(err);
   }).then(function (doc){
-    // console.log("before vote create: ", doc);
+    console.log("before vote create: ", doc);
     return Vote.create(doc);
   }, function (err){
     console.log('Error finding or creating userAgent, operatingSystem or device...');
