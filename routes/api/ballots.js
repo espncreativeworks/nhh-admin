@@ -136,7 +136,7 @@ function addAthlete(req, res) {
   console.log("athleteID: ", doc.athleteId)
 
   Ballot.find({ ballotId: doc.ballotId }).exec().then(function (result) {
-    console.log("find ballot: ", result);
+    console.log("find ballot: ",result);
   });
 
   _conditions = { _id: doc.ballotId }

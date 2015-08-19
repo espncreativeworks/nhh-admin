@@ -70,7 +70,7 @@ exports = module.exports = function(app) {
 
 	// ballots
 	app.get('/api/ballots', routes.api.ballots.list);
-	app.post('/api/ballots/:id', routes.api.ballots.create);
+	app.post('/api/ballots', routes.api.ballots.create);
 	app.get('/api/ballots/:id', routes.api.ballots.show);
 
 	// athletes
