@@ -108,33 +108,58 @@ function createAthlete(req, res) {
     return _doc;
   }).then(function (_doc) {
     console.log("got all athlete elements");
-    Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
-      //athlete doesn't exist, add to db
-      // console.log("athlete find one: ", athlete);
-      if (!athlete) {
-        return Athlete.create(_doc);
-      } else {
-        return err;
-      }
-    }, function (err){
-      console.log('Error athlete already exists...');
-      console.error(err);
-      res.json(500, { name: err.name, message: err.message });
-    }).then(function (athlete){
-      console.log("athlete created: ", athlete);
-      var q = Athlete.findOne(athlete);
-      return q.exec();
-    }, function (err){
-      console.log("error loading athlete");
-      res.json(500, { name: err.name, message: err.message });
-    }).then(function (athlete){
-      console.log("q.exec: ", athlete);
-      res.json(201, athlete);
-    }, function (err){
-      console.log("no athlete..");
-      res.json(500, { name: err.name, message: err.message });
-    });
+    return {athlete: Athlete.findOne({name: _doc.name}), doc: _doc};
+  }).then(function (retval) {
+    console.log("athlete: ", retval.athlete);
+    if (!retval.athlete) {
+      return Athlete.create(retval.doc);
+    } else {
+      return err;
+    }
+  }, function (err) {
+    console.log('Error athlete already exists...');
+    console.error(err);
+  }).then(function (athlete){
+    console.log("athlete created: ", athlete);
+    var q = Athlete.findOne(athlete);
+    return q.exec();
+  }, function (err){
+    console.log("error loading athlete");
+    res.json(500, { name: err.name, message: err.message });
+  }).then(function (athlete){
+    console.log("q.exec: ", athlete);
+    res.json(201, athlete);
+  }, function (err){
+    console.log("no athlete..");
+    res.json(500, { name: err.name, message: err.message });
   });
+    // Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
+    //   //athlete doesn't exist, add to db
+    //   // console.log("athlete find one: ", athlete);
+    //   if (!athlete) {
+    //     return Athlete.create(_doc);
+    //   } else {
+    //     return err;
+    //   }
+    // }, function (err){
+    //   console.log('Error athlete already exists...');
+    //   console.error(err);
+    //   res.json(500, { name: err.name, message: err.message });
+    // }).then(function (athlete){
+    //   console.log("athlete created: ", athlete);
+    //   var q = Athlete.findOne(athlete);
+    //   return q.exec();
+    // }, function (err){
+    //   console.log("error loading athlete");
+    //   res.json(500, { name: err.name, message: err.message });
+    // }).then(function (athlete){
+    //   console.log("q.exec: ", athlete);
+    //   res.json(201, athlete);
+    // }, function (err){
+    //   console.log("no athlete..");
+    //   res.json(500, { name: err.name, message: err.message });
+    // });
+  // });
 }
 
 exports = module.exports = {
