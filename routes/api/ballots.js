@@ -4,7 +4,8 @@ var keystone = require('keystone')
   , Athlete = keystone.list('Athlete').model
   , School = keystone.list('School').model
   , Experience = keystone.list('Experience').model
-  , Position = keystone.list('Position').model;
+  , Position = keystone.list('Position').model
+  , Q = require('q');
 
 function listBallots(req, res){
   var doc = {}, q, refs, _selects, multi = true;
@@ -137,16 +138,24 @@ function addAthlete(req, res) {
 
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
     console.log("writeins: ", res.writein);
-  });
+    var deferred = Q.defer();
 
-  _conditions = { _id: doc.ballotId }
-  , _update = { $push: { "writein": doc.athleteId } }
-  , _options = { multi: true, upsert: true };
+    if (res.writein.indexOf(doc.athleteId) === -1) {
+      _conditions = { _id: doc.ballotId }
+      , _update = { $push: { "writein": doc.athleteId } }
+      , _options = { multi: true, upsert: true };
 
-  Ballot.update(_conditions, _update, _options).exec().then(function (result){
-    console.log("add athlete to ballot result: ", result);
-    return result;
+      Ballot.update(_conditions, _update, _options).exec().then(function (result){
+        console.log("add athlete to ballot result: ", result);
+        deferred.resolve(result);
+        // return result;
+      }, function (err){
+        console.error('Error from ballot update ...');
+        deferred.reject(err);
+      });
+    }
   });
+  return deferred.promise;
 }
 
 exports = module.exports = {
