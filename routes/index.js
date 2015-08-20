@@ -58,6 +58,7 @@ exports = module.exports = function(app) {
 	if (process.env.NODE_ENV !== 'production'){
 		app.options('*', cors());
 		app.all('*', cors());
+		app.use(cors());
 	}
 
 	// console.log("app: ", app);
