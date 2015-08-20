@@ -108,7 +108,12 @@ function createAthlete(req, res) {
     return _doc;
   }).then(function (_doc) {
     console.log("got all athlete elements");
-    return {athlete: Athlete.findOne({name: _doc.name}), doc: _doc};
+    console.log("athlete findone: ", Athlete.findOne({name: _doc.name}).exec());
+    var list = {};
+    list.athlete = Athlete.findOne({name: _doc.name}).exec();
+    list.doc = _doc;
+
+    return list;
   }).then(function (retval) {
     console.log("athlete: ", retval.athlete);
     if (!retval.athlete) {
