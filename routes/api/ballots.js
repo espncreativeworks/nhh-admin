@@ -135,6 +135,10 @@ function addAthlete(req, res) {
   console.log("add athlete: ", doc);
   console.log("athleteID: ", doc.athleteId)
 
+  Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
+    console.log("writeins: ", res.writein);
+  });
+
   _conditions = { _id: doc.ballotId }
   , _update = { $push: { "writein": doc.athleteId } }
   , _options = { multi: true, upsert: true };
