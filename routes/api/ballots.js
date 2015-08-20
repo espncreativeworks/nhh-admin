@@ -154,8 +154,8 @@ function addAthlete(req, res) {
         deferred.reject(err);
       });
     }
+    return deferred.promise;
   });
-  return deferred.promise;
 }
 
 exports = module.exports = {
