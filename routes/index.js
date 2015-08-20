@@ -24,24 +24,20 @@ var _ = require('underscore'),
 	importRoutes = keystone.importer(__dirname),
 	cors = require('cors');
 
-// var whitelist = [
-// 	'http://promo.espn.go.com',
-// 	'http://promo-qa.espn.go.com',
-// 	'http://preview.espncreativeworks.com',
-// 	'http://vwtsbar04.corp.espn3.com:3467',
-// 	'http://localhost:9000',
-// 	'http://0.0.0.0:9000'
-// ];
+var whitelist = [
+	'http://promo.espn.go.com',
+	'http://promo-qa.espn.go.com'
+];
 
-// var corsOptionsDelegate = function(req, callback){
-//   var corsOptions;
-//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-//   } else {
-//     corsOptions = { origin: false }; // disable CORS for this request
-//   }
-//   callback(null, corsOptions); // callback expects two parameters: error and options
-// };
+var corsOptionsDelegate = function(req, callback){
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false }; // disable CORS for this request
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
+};
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
