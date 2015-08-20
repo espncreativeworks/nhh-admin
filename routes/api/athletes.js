@@ -5,6 +5,7 @@ var keystone = require('keystone')
   , Ballot = keystone.list('Ballot').model
   , Experience = keystone.list('Experience').model
   , Position = keystone.list('Position').model
+  , Q = require('q')
   , _ = require('underscore');
 
 function listAthletes(req, res){
