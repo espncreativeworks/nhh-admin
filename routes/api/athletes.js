@@ -108,7 +108,7 @@ function createAthlete(req, res) {
     // console.log("_doc: ", _doc);
     return _doc;
   }).then(function (_doc) {
-    console.log("got all athlete elements");
+    console.log("got all athlete elements: ", _doc);
 
     var deferred = Q.defer();
 

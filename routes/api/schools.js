@@ -58,13 +58,13 @@ function createSchool(req, res) {
     console.error(err);
     res.json(500, { name: err.name, message: err.message });
   }).then(function (school){
-    console.log(school);
+    console.log("created school: ", school);
     var q = School.findOne(school);
     return q.exec();
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
   }).then(function (school){
-    //console.log(vote);
+    console.log("found school: ", school);
     res.json(201, school);
   }, function (err){
     res.json(500, { name: err.name, message: err.message });
