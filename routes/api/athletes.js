@@ -108,63 +108,41 @@ function createAthlete(req, res) {
     return _doc;
   }).then(function (_doc) {
     console.log("got all athlete elements");
-    console.log("athlete findone: ", Athlete.findOne({name: _doc.name}).exec());
-    var list = {};
-    list.athlete = Athlete.findOne({name: _doc.name}).exec();
-    list.doc = _doc;
 
-    return list;
-  }).then(function (retval) {
-    console.log("athlete: ", retval.athlete);
-    if (!retval.athlete) {
-      return Athlete.create(retval.doc);
-    } else {
-      return err;
-    }
-  }, function (err) {
-    console.log('Error athlete already exists...');
-    console.error(err);
-  }).then(function (athlete){
-    console.log("athlete created: ", athlete);
-    var q = Athlete.findOne(athlete);
-    return q.exec();
-  }, function (err){
-    console.log("error loading athlete");
-    res.json(500, { name: err.name, message: err.message });
-  }).then(function (athlete){
-    console.log("q.exec: ", athlete);
-    res.json(201, athlete);
-  }, function (err){
-    console.log("no athlete..");
-    res.json(500, { name: err.name, message: err.message });
+    var deferred = Q.defer();
+
+    Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
+      //athlete doesn't exist, add to db
+      // console.log("athlete find one: ", athlete);
+      if (!athlete) {
+        return Athlete.create(_doc);
+      } else {
+        return err;
+      }
+    }, function (err){
+      console.log('Error athlete already exists...');
+      console.error(err);
+      deferred.reject(err);
+      res.json(500, { name: err.name, message: err.message });
+    }).then(function (athlete){
+      console.log("athlete created: ", athlete);
+      var q = Athlete.findOne(athlete);
+      deferred.resolve(q.exec();
+      return q.exec();
+    }, function (err){
+      console.log("error loading athlete");
+      deferred.reject(err);
+      res.json(500, { name: err.name, message: err.message });
+    }).then(function (athlete){
+      console.log("q.exec: ", athlete);
+      return deferred.promise;
+      res.json(201, athlete);
+    }, function (err){
+      console.log("no athlete..");
+      deferred.reject(err);
+      res.json(500, { name: err.name, message: err.message });
+    });
   });
-    // Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
-    //   //athlete doesn't exist, add to db
-    //   // console.log("athlete find one: ", athlete);
-    //   if (!athlete) {
-    //     return Athlete.create(_doc);
-    //   } else {
-    //     return err;
-    //   }
-    // }, function (err){
-    //   console.log('Error athlete already exists...');
-    //   console.error(err);
-    //   res.json(500, { name: err.name, message: err.message });
-    // }).then(function (athlete){
-    //   console.log("athlete created: ", athlete);
-    //   var q = Athlete.findOne(athlete);
-    //   return q.exec();
-    // }, function (err){
-    //   console.log("error loading athlete");
-    //   res.json(500, { name: err.name, message: err.message });
-    // }).then(function (athlete){
-    //   console.log("q.exec: ", athlete);
-    //   res.json(201, athlete);
-    // }, function (err){
-    //   console.log("no athlete..");
-    //   res.json(500, { name: err.name, message: err.message });
-    // });
-  // });
 }
 
 exports = module.exports = {
