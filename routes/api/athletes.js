@@ -127,7 +127,7 @@ function createAthlete(req, res) {
     }).then(function (athlete){
       console.log("athlete created: ", athlete);
       var q = Athlete.findOne(athlete);
-      deferred.resolve(q.exec();
+      deferred.resolve(q.exec());
       return q.exec();
     }, function (err){
       console.log("error loading athlete");
