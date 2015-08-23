@@ -139,8 +139,6 @@ function addAthlete(req, res) {
     console.log("writeins: ", res.writein);
     var deferred = Q.defer();
 
-    console.log("writein index: ", res.writein.indexOf(doc.athleteId) + " and athlete index " + res.athletes.indexOf(doc.athleteId));
-
     if (res.writein.indexOf(doc.athleteId) === -1) {
       if (res.athletes.indexOf(doc.athleteId) === -1) {
         _conditions = { _id: doc.ballotId }
@@ -152,16 +150,16 @@ function addAthlete(req, res) {
           return deferred.resolve(result);
           // return result;
         }, function (err){
-          console.error('Error from ballot update ...');
-          deferred.reject(err);
+          console.error('Error from add athlete: ', err);
+          return deferred.reject(err);
         });
+        return deferred.promise;
       } else {
         console.log("already part of athlete ballot" + res.athletes.indexOf(doc.athleteId));
       }
     } else {
       console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
     }
-    return deferred.promise;
   });
 }
 
