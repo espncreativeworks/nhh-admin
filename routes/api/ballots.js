@@ -140,7 +140,9 @@ function addAthlete(req, res) {
     var deferred = Q.defer();
 
     if (res.writein.indexOf(doc.athleteId) === -1) {
+      console.log("not a writein athlete");
       if (res.athletes.indexOf(doc.athleteId) === -1) {
+        console.log("not on current ballot");
         _conditions = { _id: doc.ballotId }
         , _update = { $push: { "writein": doc.athleteId } }
         , _options = { multi: true, upsert: true };
