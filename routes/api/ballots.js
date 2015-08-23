@@ -140,7 +140,7 @@ function addAthlete(req, res) {
     console.log("writeins: ", res.writein);
     var deferred = Q.defer();
 
-    if (res.writein.indexOf(doc.athleteId) === -1) {
+    if (res.writein.indexOf(doc.athleteId) === -1 || res.athletes.indexOf(doc.athleteId) === -1) {
 
       _conditions = { _id: doc.ballotId }
       , _update = { $push: { "writein": doc.athleteId } }
@@ -154,6 +154,8 @@ function addAthlete(req, res) {
         console.error('Error from ballot update ...');
         deferred.reject(err);
       });
+    } else {
+      console.log("athlete already part of writein ballot: ", res.writein.indexOf(doc.athleteId) " and " + res.athletes.indexOf(doc.athleteId));
     }
     return deferred.promise;
   });
