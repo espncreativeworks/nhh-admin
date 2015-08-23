@@ -141,23 +141,25 @@ function addAthlete(req, res) {
 
     console.log("writein index: ", res.writein.indexOf(doc.athleteId) + " and athlete index " + res.athletes.indexOf(doc.athleteId));
 
-    if (res.writein.indexOf(doc.athleteId) === -1 || res.athletes.indexOf(doc.athleteId) === -1) {
+    if (res.writein.indexOf(doc.athleteId) === -1) {
+      if (res.athletes.indexOf(doc.athleteId) === -1) {
+        _conditions = { _id: doc.ballotId }
+        , _update = { $push: { "writein": doc.athleteId } }
+        , _options = { multi: true, upsert: true };
 
-
-      _conditions = { _id: doc.ballotId }
-      , _update = { $push: { "writein": doc.athleteId } }
-      , _options = { multi: true, upsert: true };
-
-      Ballot.update(_conditions, _update, _options).exec().then(function (result){
-        console.log("add athlete to ballot result: ", result);
-        return deferred.resolve(result);
-        // return result;
-      }, function (err){
-        console.error('Error from ballot update ...');
-        deferred.reject(err);
-      });
+        Ballot.update(_conditions, _update, _options).exec().then(function (result){
+          console.log("add athlete to ballot result: ", result);
+          return deferred.resolve(result);
+          // return result;
+        }, function (err){
+          console.error('Error from ballot update ...');
+          deferred.reject(err);
+        });
+      } else {
+        console.log("already part of athlete ballot" + res.athletes.indexOf(doc.athleteId));
+      }
     } else {
-      console.log("athlete already part of writein ballot: ", res.writein.indexOf(doc.athleteId) + " and " + res.athletes.indexOf(doc.athleteId));
+      console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
     }
     return deferred.promise;
   });
