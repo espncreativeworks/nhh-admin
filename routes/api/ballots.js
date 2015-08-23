@@ -134,7 +134,6 @@ function addAthlete(req, res) {
   }
 
   console.log("add athlete: ", doc);
-  console.log("ballot.findone(): ", Ballot.findOne({ _id: doc.ballotId }).exec());
 
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
     console.log("writeins: ", res.writein);
