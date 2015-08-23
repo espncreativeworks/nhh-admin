@@ -139,7 +139,10 @@ function addAthlete(req, res) {
     console.log("writeins: ", res.writein);
     var deferred = Q.defer();
 
+    console.log("writein index: ", res.writein.indexOf(doc.athleteId) + " and athlete index " + res.athletes.indexOf(doc.athleteId));
+
     if (res.writein.indexOf(doc.athleteId) === -1 || res.athletes.indexOf(doc.athleteId) === -1) {
+
 
       _conditions = { _id: doc.ballotId }
       , _update = { $push: { "writein": doc.athleteId } }
