@@ -134,13 +134,14 @@ function addAthlete(req, res) {
   }
 
   console.log("add athlete: ", doc);
-  console.log("athleteID: ", doc.athleteId)
+  console.log("ballot.findone(): ", Ballot.findOne({ _id: doc.ballotId }).exec());
 
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
     console.log("writeins: ", res.writein);
     var deferred = Q.defer();
 
     if (res.writein.indexOf(doc.athleteId) === -1) {
+
       _conditions = { _id: doc.ballotId }
       , _update = { $push: { "writein": doc.athleteId } }
       , _options = { multi: true, upsert: true };
