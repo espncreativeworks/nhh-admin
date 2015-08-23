@@ -147,7 +147,7 @@ function addAthlete(req, res) {
 
       Ballot.update(_conditions, _update, _options).exec().then(function (result){
         console.log("add athlete to ballot result: ", result);
-        deferred.resolve(result);
+        return deferred.resolve(result);
         // return result;
       }, function (err){
         console.error('Error from ballot update ...');
