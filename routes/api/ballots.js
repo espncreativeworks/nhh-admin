@@ -134,10 +134,10 @@ function addAthlete(req, res) {
   }
 
   console.log("add athlete: ", doc);
+  var deferred = Q.defer();
 
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
     console.log("writeins: ", res.writein);
-    var deferred = Q.defer();
 
     if (res.writein.indexOf(doc.athleteId) === -1) {
       console.log("not a writein athlete");
@@ -155,14 +155,16 @@ function addAthlete(req, res) {
           console.error('Error from add athlete: ', err);
           return deferred.reject(err);
         });
-        return deferred.promise;
       } else {
         console.log("already part of athlete ballot" + res.athletes.indexOf(doc.athleteId));
+        return deferred.reject("athlete already part of ballot");
       }
     } else {
       console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
+      return deferred.reject("athlete already writein");
     }
   });
+  return deferred.promise;
 }
 
 exports = module.exports = {
