@@ -155,7 +155,7 @@ function addAthlete(req, res) {
         deferred.reject(err);
       });
     } else {
-      console.log("athlete already part of writein ballot: ", res.writein.indexOf(doc.athleteId) " and " + res.athletes.indexOf(doc.athleteId));
+      console.log("athlete already part of writein ballot: ", res.writein.indexOf(doc.athleteId) + " and " + res.athletes.indexOf(doc.athleteId));
     }
     return deferred.promise;
   });
