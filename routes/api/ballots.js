@@ -140,10 +140,12 @@ function addAthlete(req, res) {
     console.log("athletes: ", res.athletes);
     console.log("doc.athlete: ", doc.athleteId);
 
-    if (res.writein.indexOf(doc.athleteId) === -1) {
-      console.log("not a writein athlete");
-      if (res.athletes.indexOf(doc.athleteId) === -1) {
-        console.log("not on current ballot");
+    if (res.athletes.indexOf(doc.athleteId) === -1) {
+      console.log("not on current ballot");
+      
+      if (res.writein.indexOf(doc.athleteId) === -1) {
+        console.log("not a writein athlete");
+      
         _conditions = { _id: doc.ballotId }
         , _update = { $push: { "writein": doc.athleteId } }
         , _options = { multi: true, upsert: true };
