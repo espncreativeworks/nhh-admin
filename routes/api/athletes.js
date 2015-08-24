@@ -122,9 +122,12 @@ function createAthlete(req, res) {
       }
     }, function (err){
       console.log('Error athlete already exists...');
-      console.error(err);
-      deferred.reject(err);
-      res.json(500, { name: err.name, message: err.message });
+      // console.error(err);
+      // deferred.reject(err);
+      // res.json(500, { name: err.name, message: err.message });
+      var q = Athlete.findOne(athlete);
+      deferred.resolve(q.exec());
+      return q.exec();
     }).then(function (athlete){
       console.log("athlete created: ", athlete);
       var q = Athlete.findOne(athlete);

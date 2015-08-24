@@ -153,15 +153,14 @@ function addAthlete(req, res) {
         Ballot.update(_conditions, _update, _options).exec().then(function (result){
           console.log("add athlete to ballot result: ", result);
         }, function (err){
-          console.error('Error from add athlete: ', err);
+          console.error('Error from ballot update: ', err);
         });
       } else {
-        console.log("already part of athlete ballot" + res.athletes.indexOf(doc.athleteId));
+        console.log("already part of writein ballot" + res.writein.indexOf(doc.athleteId));
       }
     } else {
-      console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
+      console.log("already part of athlete list: ", res.athletes.indexOf(doc.athleteId));
     }
-    res.json(201, res);
   });
 }
 
