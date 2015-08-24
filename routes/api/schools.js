@@ -48,16 +48,14 @@ function createSchool(req, res) {
     doc.name = "California";
   }
 
-  console.log("school doc: ", doc);
-
   School.findOne({name: doc.name }).exec().then(function (school){
-    // console.log("school route: ", school);
+    console.log("school route: ", school);
     //school doesn't exist, add to db
     if (!school) {
       // console.log("school doesn't exist, add to db!");
       return School.create(doc);
     } else {
-      return err;
+      return school;
     }
   }, function (err){
     console.log('Error school already exists...');
