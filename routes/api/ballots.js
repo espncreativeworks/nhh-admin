@@ -150,7 +150,6 @@ function addAthlete(req, res) {
 
         Ballot.update(_conditions, _update, _options).exec().then(function (result){
           console.log("add athlete to ballot result: ", result);
-          return result;
         }, function (err){
           console.error('Error from add athlete: ', err);
         });
@@ -160,7 +159,7 @@ function addAthlete(req, res) {
     } else {
       console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
     }
-    return "athlete already exists on ballot";
+    res.json(201, res);
   });
 }
 
