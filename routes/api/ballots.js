@@ -134,37 +134,65 @@ function addAthlete(req, res) {
   }
 
   console.log("add athlete: ", doc);
-  var deferred = Q.defer();
-
+  
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
-    console.log("writeins: ", res.writein);
-
-    if (res.writein.indexOf(doc.athleteId) === -1) {
+    return res;
+  }, function (err){
+    console.error("Error finding ballot");
+  }).then(function (ballot){
+    if ( ballot.writein.indexOf(doc.athleteId) === -1 ) {
       console.log("not a writein athlete");
-      if (res.athletes.indexOf(doc.athleteId) === -1) {
+      if ( ballot.athletes.indexOf(doc.athleteId) === -1 ) {
         console.log("not on current ballot");
+
         _conditions = { _id: doc.ballotId }
         , _update = { $push: { "writein": doc.athleteId } }
         , _options = { multi: true, upsert: true };
 
+
         Ballot.update(_conditions, _update, _options).exec().then(function (result){
           console.log("add athlete to ballot result: ", result);
-          return deferred.resolve(result);
-          // return result;
+          return result;
         }, function (err){
           console.error('Error from add athlete: ', err);
-          return deferred.reject(err);
         });
       } else {
         console.log("already part of athlete ballot" + res.athletes.indexOf(doc.athleteId));
-        return deferred.reject("athlete already part of ballot");
       }
     } else {
       console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
-      return deferred.reject("athlete already writein");
     }
   });
-  return deferred.promise;
+
+  // Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
+  //   console.log("writeins: ", res.writein);
+
+  //   if (res.writein.indexOf(doc.athleteId) === -1) {
+  //     console.log("not a writein athlete");
+  //     if (res.athletes.indexOf(doc.athleteId) === -1) {
+  //       console.log("not on current ballot");
+  //       _conditions = { _id: doc.ballotId }
+  //       , _update = { $push: { "writein": doc.athleteId } }
+  //       , _options = { multi: true, upsert: true };
+
+  //       Ballot.update(_conditions, _update, _options).exec().then(function (result){
+  //         console.log("add athlete to ballot result: ", result);
+  //         return deferred.resolve(result);
+  //         // return result;
+  //       }, function (err){
+  //         console.error('Error from add athlete: ', err);
+  //         return deferred.reject(err);
+  //       });
+  //     } else {
+  //       console.log("already part of athlete ballot" + res.athletes.indexOf(doc.athleteId));
+  //       return deferred.reject("athlete already part of ballot");
+  //     }
+  //   } else {
+  //     console.log("already part of writein ballot: ", res.writein.indexOf(doc.athleteId));
+  //     return deferred.reject("athlete already writein");
+  //   }
+  // });
+  // return deferred.promise;
 }
 
 exports = module.exports = {
