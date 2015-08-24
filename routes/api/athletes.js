@@ -118,7 +118,7 @@ function createAthlete(req, res) {
       if (!athlete) {
         return Athlete.create(_doc);
       } else {
-        return err;
+        return athlete;
       }
     }, function (err){
       console.log('Error athlete already exists... ' + athlete);
