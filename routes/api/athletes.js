@@ -129,7 +129,7 @@ function createAthlete(req, res) {
       deferred.resolve(q.exec());
       return q.exec();
     }).then(function (athlete){
-      console.log("athlete created: ", athlete);
+      console.log("athlete created/exists: ", athlete);
       var q = Athlete.findOne(athlete);
       deferred.resolve(q.exec());
       return q.exec();
@@ -139,6 +139,7 @@ function createAthlete(req, res) {
       res.json(500, { name: err.name, message: err.message });
     }).then(function (athlete){
       console.log("q.exec: ", athlete);
+      console.log("deferred.promise: ", deferred.promise);
       return deferred.promise;
       res.json(201, athlete);
     }, function (err){
