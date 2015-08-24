@@ -137,6 +137,8 @@ function addAthlete(req, res) {
 
   Ballot.findOne({ _id: doc.ballotId }).exec().then(function (res){
     console.log("writeins: ", res.writein);
+    console.log("athletes: ", res.athletes);
+    console.log("doc.athlete: ", doc.athleteId);
 
     if (res.writein.indexOf(doc.athleteId) === -1) {
       console.log("not a writein athlete");
