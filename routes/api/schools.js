@@ -44,6 +44,10 @@ function createSchool(req, res) {
   };
   //console.log(doc);
 
+  if (doc.name === "Cal") {
+    doc.name = "California";
+  }
+
   School.findOne({name: doc.name }).exec().then(function (school){
     // console.log("school route: ", school);
     //school doesn't exist, add to db
