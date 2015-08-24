@@ -85,7 +85,7 @@ function createAthlete(req, res) {
     experienceName: req.param('experience'),
     positionName: req.param('position')
   };
-  
+
   // console.log(doc);
 
   School.findOne({name: doc.schoolName}).exec().then(function (school){
@@ -147,9 +147,14 @@ function createAthlete(req, res) {
       console.log("no athlete..");
       deferred.reject(err);
       res.json(500, { name: err.name, message: err.message });
+    }).then(function (dp){
+      res.json(201, dp.value);
+    }, function (err) {
+      console.log("nothing to return..");
+      deferred.reject(err);
+      res.json(500, { name: err.name, message: err.message });
     });
-    // console.log("outside findone: ", athlete);
-    // console.log("deferred.promise: ", deferred.promise);
+    console.log("outside findone: ", athlete);
   });
 }
 
