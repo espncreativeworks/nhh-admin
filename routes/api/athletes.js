@@ -121,7 +121,7 @@ function createAthlete(req, res) {
         return err;
       }
     }, function (err){
-      console.log('Error athlete already exists...');
+      console.log('Error athlete already exists... ' athlete);
       // console.error(err);
       // deferred.reject(err);
       // res.json(500, { name: err.name, message: err.message });
