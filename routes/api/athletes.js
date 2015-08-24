@@ -151,7 +151,6 @@ function createAthlete(req, res) {
       res.json(201, dp.value);
     }, function (err) {
       console.log("nothing to return..");
-      deferred.reject(err);
       res.json(500, { name: err.name, message: err.message });
     });
     console.log("outside findone: ", athlete);
