@@ -86,7 +86,8 @@ function createAthlete(req, res) {
     positionName: req.param('position')
   };
 
-  // console.log(doc);
+  console.log(doc);
+  
   School.findOne({name: doc.schoolName}).exec().then(function (school){
     // console.log("school: ", school);
     _doc = _.extend(doc, {school: ObjectId(school._id)});
@@ -145,8 +146,6 @@ function createAthlete(req, res) {
       res.json(500, { name: err.name, message: err.message });
     });
     console.log("outside findone: ", athlete);
-  }, function (err){
-    console.log("school not found");
   });
 }
 
