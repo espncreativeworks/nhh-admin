@@ -148,7 +148,7 @@ function createAthlete(req, res) {
       deferred.reject(err);
       res.json(500, { name: err.name, message: err.message });
     }).then(function (dp){
-      res.json(201, dp.value);
+      return res.json(201, dp.value);
     }, function (err) {
       console.log("nothing to return..");
       res.json(500, { name: err.name, message: err.message });
