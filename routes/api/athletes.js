@@ -86,31 +86,30 @@ function createAthlete(req, res) {
     positionName: req.param('position')
   };
 
-  console.log(doc);
+  // console.log(doc);
   School.findOne({name: doc.schoolName}).exec().then(function (school){
-    console.log("school: ", school);
+    // console.log("school: ", school);
     _doc = _.extend(doc, {school: ObjectId(school._id)});
     return _doc;
   }).then(function (_doc) {
-    console.log("after school: ", _doc);
+    // console.log("after school: ", _doc);
     return Experience.findOne({name: _doc.experienceName}).exec();
   }).then(function (exp) {
-    console.log("exp: ", exp);
+    // console.log("exp: ", exp);
     _doc = _.extend(doc, {experience: ObjectId(exp._id)});
     return _doc;
   }).then(function (_doc){
-    console.log("after experience: ", _doc);
-    console.log(Position.findOne({name: _doc.positionName}));
+    // console.log("after experience: ", _doc);
+    // console.log(Position.findOne({name: _doc.positionName}));
     return Position.findOne({name: _doc.positionName}).exec();
   }).then(function (pos){
-    console.log("pos: ", pos);
+    // console.log("pos: ", pos);
     _doc = _.extend(doc, {position: ObjectId(pos._id)});
-    console.log("_doc: ", _doc);
+    // console.log("_doc: ", _doc);
     return _doc;
   }).then(function (_doc) {
     console.log("got all athlete elements: ", _doc);
 
-    var deferred = Q.defer();
 
     Athlete.findOne({name: _doc.name }).exec().then(function (athlete){
       //athlete doesn't exist, add to db
@@ -123,28 +122,21 @@ function createAthlete(req, res) {
     }, function (err){
       console.log('Error athlete already exists... ' + athlete);
       // console.error(err);
-      // deferred.reject(err);
       // res.json(500, { name: err.name, message: err.message });
       var q = Athlete.findOne(athlete);
-      // deferred.resolve(q.exec());
       return q.exec();
     }).then(function (athlete){
       console.log("athlete created/exists: ", athlete);
       var q = Athlete.findOne(athlete);
-      // deferred.resolve(q.exec());
       return q.exec();
     }, function (err){
       console.log("error loading athlete");
-      // deferred.reject(err);
       res.json(500, { name: err.name, message: err.message });
     }).then(function (athlete){
       console.log("q.exec: ", athlete);
-      // console.log("deferred.promise: ", deferred.promise);
       res.json(201, athlete);
-      // return deferred.promise;
     }, function (err){
       console.log("no athlete..");
-      // deferred.reject(err);
       res.json(500, { name: err.name, message: err.message });
     }).then(function (dp){
       res.json(201, dp.value);
