@@ -73,7 +73,7 @@ function showAthlete(req, res){
 function createAthlete(req, res) {
   console.log("create athlete");
   var nameObj = {
-    first: req.param('firstName'),
+    first: req.param("firstName"),
     last: req.param('lastName')
   };
   var doc = {
@@ -87,7 +87,7 @@ function createAthlete(req, res) {
   };
 
   console.log(doc);
-  
+
   School.findOne({name: doc.schoolName}).exec().then(function (school){
     // console.log("school: ", school);
     _doc = _.extend(doc, {school: ObjectId(school._id)});
