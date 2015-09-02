@@ -41,7 +41,7 @@ Person.add({
 /**
  * Relationships
  */
-Person.relationship({ path: 'videos', ref: 'Videos', refPath: 'people' });
+Person.relationship({ path: 'videos', ref: 'Video', refPath: 'people' });
 Person.relationship({ path: 'tourStops', ref: 'TourStop', refPath: 'people' });
 
 /**
