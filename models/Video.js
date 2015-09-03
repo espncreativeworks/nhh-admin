@@ -24,7 +24,8 @@ Video.add({
     { value: 'Behind the Scenes', label: 'Behind the Scenes' },
     { value: 'Teasers', label: 'Teasers' },
     { value: 'Heisman House Tour', label: 'Heisman House Tour' },
-    { value: 'Heisman House Special', label: 'Heisman House Special'}
+    { value: 'Heisman House Special', label: 'Heisman House Special'},
+    { value: 'Social', label: 'Social'}
   ] },
   people: { type: Types.Relationship, ref: 'Person', many: true },
   thumbnailUrl: { type: Types.Url, noedit: true, watch: 'youtubeId', value: function (){
