@@ -9,6 +9,8 @@ function listTourStops(req, res){
 
   q = TourStop.find(doc).sort('stopNumber');
   q.populate('timezone');
+  q.populate('hosts');
+  q.populate('guests');
   q.select('-__v');
 
   q.exec().then(function(stops){
