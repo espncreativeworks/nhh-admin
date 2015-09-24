@@ -48,5 +48,5 @@ Video.relationship({ path: 'tourStops', ref: 'TourStop', refPath: 'videos' });
 /**
  * Registration
  */
-Video.defaultColumns = 'name, category, isActive';
+Video.defaultColumns = 'name, category, isActive, isFeatured';
 Video.register();

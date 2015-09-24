@@ -75,7 +75,7 @@ exports = module.exports = function(app) {
 	app.post('/api/athletes', routes.api.athletes.create);
 	app.get('/api/athletes/:id', routes.api.athletes.show);
 
-	// tour stops
+	// video
 	app.get('/api/videos', routes.api.videos.list);
 	app.get('/api/videos/:id', routes.api.videos.show);
 
