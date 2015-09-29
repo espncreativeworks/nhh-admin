@@ -7,6 +7,13 @@ function listTourStops(req, res){
   var doc = {}
     , q;
 
+  if (parseInt(req.query.final || 0, 10) === 1){
+    doc.isFinal = true;
+  }
+  if (parseInt(req.query.past || 0, 10) === 1){
+    doc.isPast = true;
+  }
+
   q = TourStop.find(doc).sort('stopNumber');
   q.populate('timezone');
   q.populate('hosts');

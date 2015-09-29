@@ -21,7 +21,9 @@ TourStop.add({
   stopDate: { type: Types.Date, initial: true, label: 'Date', note: 'The date of this tour stop' },
   beginsAt: { type: Types.Datetime },
   endsAt: { type: Types.Datetime },
-  timezone: { type: Types.Relationship, ref: 'Timezone', note: 'Updated automatically when venue Lat/Lng change' }
+  timezone: { type: Types.Relationship, ref: 'Timezone', note: 'Updated automatically when venue Lat/Lng change' },
+  isPast: { type: Boolean, default: false, label: 'Has the tour stop happened?' },
+  isFinal: { type: Boolean, default: false, label: 'Time finalized?' },
 }, 'Details', {
   venue: { type: Types.Location },
   site: { type: Types.Html, wysiwyg: true, height: 120 },
