@@ -367,7 +367,7 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     , baseUrl = 'http://www.telize.com/geoip/'
-    , _url = baseUrl + "?ip=" + ip;
+    , _url = baseUrl + ip;
 
   var opts = {
       method: 'GET',
