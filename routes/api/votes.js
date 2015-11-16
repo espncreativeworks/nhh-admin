@@ -368,8 +368,10 @@ function showVote(req, res){
 function getIpGeolocation(ip){
   var deferred = Q.defer()
     // , baseUrl = 'http://www.telize.com/geoip/'
-    , baseUrl = 'https://telize-v1.p.mashape.com/geoip/'
-    , _url = baseUrl + ip + '?callback=getgeoip';
+    // , baseUrl = 'https://telize-v1.p.mashape.com/geoip/'
+    // , _url = baseUrl + ip + '?callback=getgeoip';
+    , baseUrl = 'https://telize-v1.p.mashape.com/geoip'
+    , _url = baseUrl + ip;
 
   // These code snippets use an open-source library. http://unirest.io/nodejs
   // unirest.get("https://telize-v1.p.mashape.com/jsonip?callback=getip")
@@ -380,10 +382,10 @@ function getIpGeolocation(ip){
   // });
 
   var opts = {
-      method: 'GET',
-      url: _url,
-      headers: { 'X-Mashape-Key': 'h2MRbZxrlomshx7OBm8bSs1GUrSyp17Pc2ujsnXgCFkinAtbyr', 'Accept': 'application/json' }
-    };
+    method: 'GET',
+    url: _url,
+    headers: { 'X-Mashape-Key': 'h2MRbZxrlomshx7OBm8bSs1GUrSyp17Pc2ujsnXgCFkinAtbyr', 'Accept': 'application/json' }
+  };
 
   request(opts, function (err, response, body){
     // console.log("getipgeoloc response: ", response);
