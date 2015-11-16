@@ -156,7 +156,7 @@ function createVote(req, res){
     // console.log("vote api: ", athlete);
 
     // return early if athlete does not exist
-    // make in active athlete active for write-in ballot
+    // make inactive athlete active for write-in ballot
     if (!athlete) {
       err = new Error('Invalid Athlete');
       err.message = 'Athlete ' + doc.athlete + ' is inactive.';
@@ -366,7 +366,8 @@ function showVote(req, res){
 
 function getIpGeolocation(ip){
   var deferred = Q.defer()
-    , baseUrl = 'http://www.telize.com/geoip/'
+    // , baseUrl = 'http://www.telize.com/geoip/'
+    , baseUrl = 'https://telize-v1.p.mashape.com/geoip/'
     , _url = baseUrl + ip;
 
   var opts = {
