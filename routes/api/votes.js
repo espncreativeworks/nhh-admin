@@ -191,7 +191,7 @@ function createVote(req, res){
             geo: [ _ip.longitude, _ip.latitude ]
           }
         };
-        // console.log("getipgeoloc: ", _doc);
+        console.log("getipgeoloc: ", _doc);
         return IpAddress.create(_doc);
       }, function (err){
         console.error('Error from getIpGeolocation( ' + doc.ipAddress + ' )');
@@ -342,7 +342,7 @@ function createVote(req, res){
 }
 
 function showVote(req, res){
-  console.log("req.params: ", req.parms);
+  // console.log("req.params: ", req.parms);
   var q = Vote.findOne({ _id: req.params.id });
 
   q.populate('athlete', 'name _id espnId');
@@ -382,7 +382,7 @@ function getIpGeolocation(ip){
   var opts = {
       method: 'GET',
       url: _url,
-      beforeSend: setHeader
+      headers: { 'X-Mashape-Key': 'h2MRbZxrlomshx7OBm8bSs1GUrSyp17Pc2ujsnXgCFkinAtbyr', 'Accept': 'application/json' }
     };
 
   request(opts, function (err, response, body){
@@ -404,7 +404,7 @@ exports = module.exports = {
   show: showVote
 };
 
-function setHeader(xhr) {
-        xhr.setRequestHeader('X-Mashape-Key', 'SLWmXEDDRrmshI9hAKRk23K3Tbwcp1VlMimjsnXN1bba15IaKc');
-        xhr.setRequestHeader('Accept', 'application/json');
-      }
+// function setHeader(xhr) {
+//   xhr.setRequestHeader('X-Mashape-Key', '');
+//   xhr.setRequestHeader('Accept', 'application/json');
+// }
