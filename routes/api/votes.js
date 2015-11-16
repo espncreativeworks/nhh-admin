@@ -13,7 +13,8 @@ var keystone = require('keystone')
   , Q = require('q')
   , request = require('request')
   , useragent = require('useragent')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , unirest = require('unirest');
 
 useragent(true);
 
@@ -368,11 +369,20 @@ function getIpGeolocation(ip){
   var deferred = Q.defer()
     // , baseUrl = 'http://www.telize.com/geoip/'
     , baseUrl = 'https://telize-v1.p.mashape.com/geoip/'
-    , _url = baseUrl + ip;
+    , _url = baseUrl + ip + '?callback=getgeoip';
+
+  // These code snippets use an open-source library. http://unirest.io/nodejs
+  // unirest.get("https://telize-v1.p.mashape.com/jsonip?callback=getip")
+  // .header("X-Mashape-Key", )
+  // .header("Accept", "application/json")
+  // .end(function (result) {
+  //   console.log(result.status, result.headers, result.body);
+  // });
 
   var opts = {
       method: 'GET',
-      url: _url
+      url: _url,
+      beforeSend: setHeader
     };
 
   request(opts, function (err, response, body){
@@ -393,3 +403,8 @@ exports = module.exports = {
   create: createVote,
   show: showVote
 };
+
+function setHeader(xhr) {
+        xhr.setRequestHeader('X-Mashape-Key', 'SLWmXEDDRrmshI9hAKRk23K3Tbwcp1VlMimjsnXN1bba15IaKc');
+        xhr.setRequestHeader('Accept', 'application/json');
+      }
